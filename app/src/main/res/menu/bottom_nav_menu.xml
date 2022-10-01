@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:title="@string/insights"
+        android:icon="@drawable/ic_baseline_insights_24"
+        android:id="@+id/insights"/>
+    <item
+        android:title="@string/events"
+        android:icon="@drawable/ic_baseline_list_24"
+        android:id="@+id/events"/>
+    <item
+        android:title="@string/calendar"
+        android:icon="@drawable/ic_baseline_calendar_month_24"
+        android:id="@+id/calendar"/>
+    <item
+        android:title="@string/add"
+        android:icon="@drawable/ic_baseline_add_24"
+        android:id="@+id/add"/>
+    <item
+        android:title="@string/profile"
+        android:icon="@drawable/ic_baseline_profile_24"
+        android:id="@+id/profile"/>
+</menu>
