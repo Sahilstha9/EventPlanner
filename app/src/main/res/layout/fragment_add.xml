@@ -17,5 +17,5 @@
         android:layout_width="match_parent"
         android:layout_height="370dp"
         android:text="@string/add_category"
-        android:backgroundTint="@color/skin"/>
+        />
 </androidx.appcompat.widget.LinearLayoutCompat>

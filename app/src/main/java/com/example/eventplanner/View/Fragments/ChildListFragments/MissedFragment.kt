@@ -1,60 +1,69 @@
 package com.example.eventplanner.View.Fragments.ChildListFragments
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.eventplanner.R
+import com.example.eventplanner.View.Activities.AddEventActivity
+import com.example.eventplanner.View.Adapters.DoneAdapter
+import com.example.eventplanner.View.Adapters.MissedAdapter
+import com.example.eventplanner.View.Adapters.UpcomingAdapter
+import com.example.eventplanner.View.Fragments.BottomSheet.BottomSheetFragment
+import com.example.eventplanner.viewModel.ListViewModel
+import com.example.eventplanner.viewModel.parcels.Event
+import java.util.*
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+class MissedFragment : Fragment(R.layout.fragment_missed) {
 
-/**
- * A simple [Fragment] subclass.
- * Use the [MissedFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class MissedFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private val TAG = "MissedFragment"
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var adapter: MissedAdapter
+    private lateinit var viewModel : ListViewModel
+    private val getEvent = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()) {
+        if(it.resultCode == Activity.RESULT_OK){
+            val intent = it.data
+            val parcel : Event = intent?.getParcelableExtra("event")!!
+            Log.i(TAG, parcel.name)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+            viewModel.updateEvent(parcel)
         }
     }
+    var eventActivityIntent : Intent? = null
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_missed, container, false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        viewModel = ViewModelProvider(this)[ListViewModel::class.java]
+        recyclerView = view.findViewById(R.id.recyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(context)
+        viewModel.eventList.observe(requireActivity(), androidx.lifecycle.Observer {
+            adapter = MissedAdapter(it, this)
+            recyclerView.adapter = adapter
+        })
+
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment MissedFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            MissedFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    fun showDialog(item : Event) {
+        val bottomSheet = BottomSheetFragment(item)
+        bottomSheet.show(childFragmentManager, "Long")
+    }
+
+    fun deleteEvent(event: Event) {viewModel.deleteEvent(event)}
+
+    fun editEvent(event: Event) {
+        eventActivityIntent = Intent(context, AddEventActivity::class.java)
+        eventActivityIntent!!.putExtra("event", event)
+        getEvent.launch(eventActivityIntent)
     }
 }

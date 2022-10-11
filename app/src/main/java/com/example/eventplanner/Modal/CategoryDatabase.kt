@@ -1,51 +1,58 @@
 package com.example.categoryplanner.Modal
 
 import android.util.Log
+import com.example.eventplanner.viewModel.ListViewModel
 import com.example.eventplanner.viewModel.parcels.Category
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.android.gms.tasks.Tasks.await
+import com.google.firebase.database.*
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.callbackFlow
+import java.util.Observable
 
-class CategoryDatabase {
+object CategoryDatabase : Observable(){
     val TAG = "CategoryDatabase"
-    private val db = FirebaseDatabase.getInstance().getReference("categories")
-    private lateinit var categoryList : MutableList<Category>
+    fun getDatabaseRef() : DatabaseReference {
+        return FirebaseDatabase.getInstance().getReference("categories")
+    }
+    private var categoryList : MutableList<Category> = mutableListOf()
 
     fun createCategory(category: Category){
-        category.id = db.push().key!!
-
-        db.child(category.id).setValue(category).addOnSuccessListener {
+        category.id = getDatabaseRef().push().key!!
+        getDatabaseRef().child(category.id).setValue(category).addOnSuccessListener {
             Log.i(TAG, "1 document added to Category Collection")
         }.addOnFailureListener{
-            Log.i(TAG, "Failure on adding categorys")
+            Log.i(TAG, "Failure on adding categories")
         }
     }
 
     fun getCategories() : MutableList<Category>{
-        categoryList = mutableListOf()
-        db.addValueEventListener(object : ValueEventListener{
+        var toReturn : MutableList<Category> = mutableListOf()
+        getDatabaseRef().addValueEventListener(object : ValueEventListener{
             override fun onDataChange(categories: DataSnapshot) {
+                val data : MutableList<Category> = mutableListOf()
                 if (categories.exists()){
-                    categoryList.clear()
                     for (e in categories.children){
                         val category = e.getValue(Category::class.java)
-                        categoryList.add(category!!)
+                        data.add(category!!)
                         Log.i(TAG, category.name)
                     }
-                    Log.i(TAG, categoryList.toString())
+                    toReturn = data
                 }
             }
-
             override fun onCancelled(error: DatabaseError) {
                 TODO("Not yet implemented")
             }
         })
-        return categoryList
+        return toReturn
     }
 
+
     fun updateCategory(category : Category){
-        db.child(category.id).setValue(category).addOnSuccessListener {
+        getDatabaseRef().child(category.id).setValue(category).addOnSuccessListener {
             Log.i(TAG, "${category.id} Record Modified")
         }.addOnCanceledListener {
             Log.i(TAG, "${category.id} Record failed to be modified")
@@ -53,7 +60,7 @@ class CategoryDatabase {
     }
 
     fun deleteCategory(category : Category){
-        db.child(category.id).removeValue().addOnSuccessListener {
+        getDatabaseRef().child(category.id).removeValue().addOnSuccessListener {
             Log.i(TAG, "${category.id} Record Deleted")
         }.addOnCanceledListener {
             Log.i(TAG, "${category.id} Record Failed to be deleted")

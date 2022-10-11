@@ -2,10 +2,12 @@ package com.example.eventplanner.View.Activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.example.categoryplanner.Modal.CategoryDatabase
+import com.example.eventplanner.Modal.EventDatabase
 import com.example.eventplanner.R
 import com.example.eventplanner.View.Fragments.*
 import com.example.eventplanner.databinding.ActivityMainBinding
@@ -13,18 +15,22 @@ import com.example.eventplanner.viewModel.parcels.Category
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
-
-//    private lateinit var binding : ActivityMainBinding
+    val TAG = "MainActivity"
+    private lateinit var binding : ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        //binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        val dbEvent = EventDatabase
 
-        var fm = supportFragmentManager
+        dbEvent.getEvents()
+        dbEvent.getEventsOnce()
+        val fm = supportFragmentManager
 
-        var bottomNavBar = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+        binding.bottomNavigationView.setOnItemSelectedListener {
 
-        bottomNavBar.setOnItemReselectedListener {
+            Log.i(TAG, "Item Selected on bottom navigation bar")
+
             when (it.itemId){
                 R.id.profile -> replaceFragment(fm, ProfileFragment())
                 R.id.insights -> replaceFragment(fm, InsightsFragment())
@@ -42,6 +48,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun replaceFragment(fm : FragmentManager, fragment : Fragment){
+        Log.i(TAG, "Replace Fragment called")
+
         fm.beginTransaction().apply {
             replace(R.id.fragmentHolder, fragment)
             commit()

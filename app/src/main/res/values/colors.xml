@@ -7,6 +7,7 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="skin">#fcba03</color>
-    <color name="blueGreen">##3caefa</color>
+    <color name="done">#309c34</color>
+    <color name="missed">#eb232d</color>
+    <color name="upcoming">#2a53f7</color>
 </resources>

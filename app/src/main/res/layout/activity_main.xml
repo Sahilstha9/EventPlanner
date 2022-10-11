@@ -20,9 +20,8 @@
         android:id="@+id/fragmentHolder"
         android:name="com.example.eventplanner.View.Fragments.InsightsFragment"
         android:layout_width="match_parent"
-        android:layout_height="790dp"
+        android:layout_height="match_parent"
         app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout="@layout/fragment_insights" />

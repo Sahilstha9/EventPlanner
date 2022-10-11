@@ -1,38 +1,45 @@
 package com.example.eventplanner.View.Adapters
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
-import androidx.fragment.app.Fragment
+import android.widget.ImageView
+import android.widget.PopupMenu
+import android.widget.TextView
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.eventplanner.R
-import com.example.eventplanner.View.Fragments.ChildListFragments.UpcomingFragment
+import com.example.eventplanner.View.Activities.MainActivity
+import com.example.eventplanner.View.Fragments.ChildListFragments.DoneFragment
 import com.example.eventplanner.viewModel.parcels.Event
 
-class UpcomingAdapter(private val data: List<Event>, var fragment: UpcomingFragment) : RecyclerView.Adapter<UpcomingAdapter.ViewHolder>()  {
+class DoneAdapter(var fragment : DoneFragment) : RecyclerView.Adapter<DoneAdapter.ViewHolder>()  {
 
-    private val TAG: String = "UpcomingAdapter"
+    var dataList = emptyList<Event>()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UpcomingAdapter.ViewHolder {
+    internal fun setDataList(dataList : List<Event>){
+        this.dataList = dataList
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DoneAdapter.ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val view = layoutInflater
-            .inflate(R.layout.layout_list_row, parent, false) as View
+            .inflate(R.layout.layout_grid_recyclerview, parent, false) as View
         return ViewHolder(view)
     }
 
-    override fun getItemCount() = data.size
+    override fun getItemCount() = dataList.size
 
-    override fun onBindViewHolder(holder: UpcomingAdapter.ViewHolder, position: Int) {
-        val item = data[position]
+    override fun onBindViewHolder(holder: DoneAdapter.ViewHolder, position: Int) {
+        val item = dataList[position]
         holder.bind(item)
     }
 
     inner class ViewHolder(private val v: View) : RecyclerView.ViewHolder(v) {
         private val name: TextView = v.findViewById(R.id.name)
         private val date: TextView = v.findViewById(R.id.date)
+        private val image: ImageView = v.findViewById(R.id.image)
         private var menu : ImageView = v.findViewById(R.id.menu)
 
         private fun popContextMenu(event: Event) {
@@ -62,6 +69,7 @@ class UpcomingAdapter(private val data: List<Event>, var fragment: UpcomingFragm
         fun bind(item: Event) {
             name.text = item.name
             date.text = item.date.toString()
+            image.setImageResource(R.drawable.ic_baseline_add_24)
             v.setOnClickListener {
                 fragment.showDialog(item)
             }
