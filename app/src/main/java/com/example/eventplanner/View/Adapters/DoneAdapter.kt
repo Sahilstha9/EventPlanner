@@ -12,9 +12,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.eventplanner.R
 import com.example.eventplanner.View.Activities.MainActivity
 import com.example.eventplanner.View.Fragments.ChildListFragments.DoneFragment
+import com.example.eventplanner.View.Fragments.ListFragment
 import com.example.eventplanner.viewModel.parcels.Event
 
-class DoneAdapter(var fragment : DoneFragment) : RecyclerView.Adapter<DoneAdapter.ViewHolder>()  {
+class DoneAdapter(var fragment : ListFragment) : RecyclerView.Adapter<DoneAdapter.ViewHolder>()  {
 
     var dataList = emptyList<Event>()
 
@@ -43,7 +44,7 @@ class DoneAdapter(var fragment : DoneFragment) : RecyclerView.Adapter<DoneAdapte
         private var menu : ImageView = v.findViewById(R.id.menu)
 
         private fun popContextMenu(event: Event) {
-            val popupMenu = PopupMenu(fragment.context, v)
+            val popupMenu = PopupMenu(fragment.context, menu)
             popupMenu.inflate(R.menu.context_menu)
             popupMenu.setOnMenuItemClickListener {
                 when (it.itemId){

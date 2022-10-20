@@ -24,4 +24,6 @@
     <string name="event_frequency">Event Frequency</string>
     <string name="delete">Delete</string>
     <string name="edit">Edit</string>
+    <string name="avcash">TextView</string>
+    <string name="category">Category</string>
 </resources>

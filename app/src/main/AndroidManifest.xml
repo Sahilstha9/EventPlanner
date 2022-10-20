@@ -13,15 +13,20 @@
         android:theme="@style/Theme.EventPlanner"
         tools:targetApi="31">
         <activity
-            android:name=".View.Activities.AddEventActivity"
+            android:name=".View.Activities.AboutActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".View.Activities.AddCategoryActivity"
+            android:name=".View.Activities.AddEventActivity"
             android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity android:name=".View.Activities.AddCategoryActivity">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />

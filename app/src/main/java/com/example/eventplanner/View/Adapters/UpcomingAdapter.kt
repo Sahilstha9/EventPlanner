@@ -1,18 +1,18 @@
 package com.example.eventplanner.View.Adapters
 
-import android.content.Context
-import android.util.Log
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.fragment.app.Fragment
+
 import androidx.recyclerview.widget.RecyclerView
 import com.example.eventplanner.R
-import com.example.eventplanner.View.Fragments.ChildListFragments.UpcomingFragment
+import com.example.eventplanner.View.Fragments.ListFragment
+
 import com.example.eventplanner.viewModel.parcels.Event
 
-class UpcomingAdapter(private val data: List<Event>, var fragment: UpcomingFragment) : RecyclerView.Adapter<UpcomingAdapter.ViewHolder>()  {
+class UpcomingAdapter(private val data: List<Event>, var fragment: ListFragment) : RecyclerView.Adapter<UpcomingAdapter.ViewHolder>()  {
 
     private val TAG: String = "UpcomingAdapter"
 
@@ -36,7 +36,7 @@ class UpcomingAdapter(private val data: List<Event>, var fragment: UpcomingFragm
         private var menu : ImageView = v.findViewById(R.id.menu)
 
         private fun popContextMenu(event: Event) {
-            val popupMenu = PopupMenu(fragment.context, v)
+            val popupMenu = PopupMenu(fragment.context, menu)
             popupMenu.inflate(R.menu.context_menu)
             popupMenu.setOnMenuItemClickListener {
                 when (it.itemId){

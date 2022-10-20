@@ -6,10 +6,18 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import com.example.eventplanner.R
+import com.example.eventplanner.View.MyXAxisFormatter
+import com.example.eventplanner.viewModel.InsightsViewModel
 import com.github.mikephil.charting.animation.Easing
+import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.data.BarData
+import com.github.mikephil.charting.data.BarDataSet
+import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
@@ -17,56 +25,35 @@ import com.github.mikephil.charting.data.LineDataSet
 class InsightsFragment : Fragment(R.layout.fragment_insights) {
 
     private lateinit var lineChart : LineChart
+    private lateinit var barChart: BarChart
+    private lateinit var dataVal: MutableList<BarEntry>
+    private val viewModel = InsightsViewModel()
+    private val valueFormatter = MyXAxisFormatter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        lineChart = view.findViewById(R.id.lineChart)
-        //Part1
-        val entries = ArrayList<Entry>()
-//        var xais : XAxis = lineChart.xAxis
-//        xais.position = XAxis.XAxisPosition.BOTTOM
-//        xais.valueFormatter =
+        barChart = view.findViewById(R.id.barChart)
 
-//Part2
-        entries.add(Entry(2f, 2f))
-        entries.add(Entry(3f, 7f))
-        entries.add(Entry(4f, 20f))
-        entries.add(Entry(5f, 16f))
-
-//Part3
-        val vl = LineDataSet(entries, "My Type")
-
-//Part4
-        vl.setDrawValues(false)
-        vl.setDrawFilled(true)
-        vl.lineWidth = 3f
-        vl.fillColor = R.color.done
-        vl.fillAlpha = R.color.missed
-
-//Part5
-        lineChart.xAxis.labelRotationAngle = 0f
-
-//Part6
-        lineChart.data = LineData(vl)
-
-////Part7
-//        lineChart.axisRight.isEnabled = false
-//        lineChart.xAxis.axisMaximum = j+0.1f
-//
-////Part8
-//        lineChart.setTouchEnabled(true)
-//        lineChart.setPinchZoom(true)
-//
-////Part9
-//        lineChart.description.text = "Days"
-//        lineChart.setNoDataText("No forex yet!")
-//
-////Part10
-//        lineChart.animateX(1800, Easing.EaseInExpo)
-////
-//////Part11
-//        val markerView = CustomMarker(this@ShowForexActivity, R.layout.marker_view)
-//        lineChart.marker = markerView
+        listObserver(viewModel.completedCount)
+        listObserver(viewModel.upcomingCount)
+        listObserver(viewModel.missedCount)
     }
+
+    fun listObserver(list : MutableLiveData<Int>){
+        list.observe(viewLifecycleOwner, Observer {
+            valueFormatter.setArray(arrayListOf("completed", "upcoming", "missed"))
+            dataVal = arrayListOf()
+            dataVal.add(BarEntry("0".toFloat(), viewModel.completedCount.value?.toFloat() ?: "3".toFloat()))
+            dataVal.add(BarEntry("1".toFloat(), viewModel.upcomingCount.value?.toFloat() ?: "5".toFloat()))
+            dataVal.add(BarEntry("2".toFloat(), viewModel.missedCount.value?.toFloat() ?: "6".toFloat()))
+            val barDataSet = BarDataSet(dataVal, "DataSet1")
+            barDataSet.valueFormatter = valueFormatter
+            val barData = BarData(barDataSet)
+            barChart.xAxis.valueFormatter = valueFormatter
+            barChart.data = barData
+            barChart.invalidate()
+        })
+    }
+
 }

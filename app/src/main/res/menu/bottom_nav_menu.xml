@@ -13,8 +13,8 @@
         android:icon="@drawable/ic_baseline_calendar_month_24"
         android:id="@+id/calendar"/>
     <item
-        android:title="@string/add"
-        android:icon="@drawable/ic_baseline_add_24"
+        android:title="@string/category"
+        android:icon="@drawable/ic_baseline_category_24"
         android:id="@+id/add"/>
     <item
         android:title="@string/profile"

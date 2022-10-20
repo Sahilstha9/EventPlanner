@@ -10,10 +10,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.eventplanner.R
 import com.example.eventplanner.View.Fragments.ChildListFragments.MissedFragment
+import com.example.eventplanner.View.Fragments.ListFragment
 import com.example.eventplanner.viewModel.parcels.Event
 import org.w3c.dom.Text
 
-class MissedAdapter(private val data: List<Event>, var fragment: MissedFragment) : RecyclerView.Adapter<MissedAdapter.ViewHolder>()  {
+class MissedAdapter(private val data: List<Event>, var fragment: ListFragment) : RecyclerView.Adapter<MissedAdapter.ViewHolder>()  {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MissedAdapter.ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -37,7 +38,7 @@ class MissedAdapter(private val data: List<Event>, var fragment: MissedFragment)
         private var menu : ImageView = v.findViewById(R.id.menu)
 
         private fun popContextMenu(event: Event) {
-            val popupMenu = PopupMenu(fragment.context, v)
+            val popupMenu = PopupMenu(fragment.context, menu)
             popupMenu.inflate(R.menu.context_menu)
             popupMenu.setOnMenuItemClickListener {
                 when (it.itemId){

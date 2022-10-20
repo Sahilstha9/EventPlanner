@@ -3,6 +3,7 @@ package com.example.eventplanner.View.Activities
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -25,7 +26,7 @@ class AddEventActivity : AppCompatActivity() {
     private lateinit var btnAddEvent : Button
     private lateinit var done : RadioButton
     private lateinit var notDone : RadioButton
-    private var isDone : Boolean = false
+    private var isDone : Boolean = true
     private lateinit var viewModel: AddEventViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,7 +34,7 @@ class AddEventActivity : AppCompatActivity() {
         val data = intent.getParcelableExtra<Event>("event")
         viewModel = ViewModelProvider(this)[AddEventViewModel::class.java]
         setContentView(R.layout.activity_add_event)
-        var intent = Intent(Intent.ACTION_MAIN)
+        val intent = Intent(Intent.ACTION_MAIN)
 
 
         name = findViewById(R.id.name)
@@ -52,7 +53,7 @@ class AddEventActivity : AppCompatActivity() {
 
         viewModel.categoryList.observe(this, androidx.lifecycle.Observer {
             catList ->
-            var categoryNameList : MutableList<String>  = mutableListOf()
+            val categoryNameList : MutableList<String>  = mutableListOf()
             for (i in catList){
                 categoryNameList.add(i.name)
             }
@@ -65,10 +66,9 @@ class AddEventActivity : AppCompatActivity() {
         })
 
         btnAddEvent.setOnClickListener() {
+            Log.i("New", done.isChecked.toString())
             if (viewModel.inputValidation(name, date, location, time)) {
-                if (done.isSelected) {
-                    isDone = true
-                }
+                isDone = done.isChecked
                 val splitDate = date.text.toString().split("-")
                 val splitTime = time.text.toString().split(":")
                 var id = ""
@@ -79,8 +79,8 @@ class AddEventActivity : AppCompatActivity() {
                     name.text.toString(),
                     Date(
                         splitDate[2].toInt(),
-                        splitDate[1].toInt(),
-                        splitDate[0].toInt(),
+                        splitDate[1].toInt() - 1,
+                        splitDate[0].toInt() - 1,
                         splitTime[0].toInt(),
                         splitTime[1].toInt()
                     ),
