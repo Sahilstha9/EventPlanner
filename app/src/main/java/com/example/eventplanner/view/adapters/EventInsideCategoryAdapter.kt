@@ -1,4 +1,4 @@
-package com.example.eventplanner.View.Adapters
+package com.example.eventplanner.view.adapters
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -7,12 +7,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.eventplanner.R
-import com.example.eventplanner.View.Activities.MainActivity
-import com.example.eventplanner.View.Fragments.CalendarFragment
-import com.example.eventplanner.View.Fragments.CategoryListFragment
+import com.example.eventplanner.view.fragments.CategoryListFragment
 import com.example.eventplanner.viewModel.parcels.Event
-import com.google.android.material.chip.Chip
-import java.util.*
 
 class EventInsideCategoryAdapter(private var data: List<Event>, private val fragment: CategoryListFragment) : RecyclerView.Adapter<EventInsideCategoryAdapter.ViewHolder>()  {
 

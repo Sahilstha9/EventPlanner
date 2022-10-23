@@ -1,4 +1,4 @@
-package com.example.eventplanner.View.Activities
+package com.example.eventplanner.view.activities
 
 import android.app.Activity
 import android.content.Intent
@@ -9,19 +9,16 @@ import android.util.Log
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import android.widget.Button
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import com.example.categoryplanner.Modal.CategoryDatabase
-import com.example.eventplanner.Modal.EventDatabase
+import com.example.eventplanner.modal.CategoryDatabase
+import com.example.eventplanner.modal.EventDatabase
 import com.example.eventplanner.R
-import com.example.eventplanner.View.Fragments.*
+import com.example.eventplanner.view.fragments.*
 import com.example.eventplanner.databinding.ActivityMainBinding
 import com.example.eventplanner.viewModel.parcels.Category
 import com.example.eventplanner.viewModel.parcels.Event
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.snackbar.Snackbar
 
 class MainActivity : AppCompatActivity() {
     val TAG = "MainActivity"
@@ -62,6 +59,7 @@ class MainActivity : AppCompatActivity() {
         val eventActivityIntent = Intent(this, AddEventActivity::class.java)
         val categoryActivityIntent = Intent(this, AddCategoryActivity::class.java)
 
+        binding.addBtn
         binding.addBtn.setOnClickListener(){
             onAddButtonClicked()
         }

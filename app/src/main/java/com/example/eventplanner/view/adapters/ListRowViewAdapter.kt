@@ -1,57 +1,55 @@
-package com.example.eventplanner.View.Adapters
+package com.example.eventplanner.view.adapters
 
+
+import android.content.res.ColorStateList
 import android.view.ContextMenu
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnCreateContextMenuListener
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
+
 import androidx.recyclerview.widget.RecyclerView
-import com.example.eventplanner.Modal.ImageModal
+import com.example.eventplanner.modal.ImageModal
 import com.example.eventplanner.R
-import com.example.eventplanner.View.Fragments.ListFragment
+import com.example.eventplanner.view.fragments.ListFragment
+
 import com.example.eventplanner.viewModel.parcels.Event
 
-class GridViewAdapter(var fragment : ListFragment) : RecyclerView.Adapter<GridViewAdapter.ViewHolder>()  {
+class ListRowViewAdapter(private val data: List<Event>, var fragment: ListFragment) : RecyclerView.Adapter<ListRowViewAdapter.ViewHolder>() {
 
-    var dataList = emptyList<Event>()
+    private val TAG: String = "UpcomingAdapter"
     private val imageDB = ImageModal
 
-    internal fun setDataList(dataList : List<Event>){
-        this.dataList = dataList
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GridViewAdapter.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListRowViewAdapter.ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val view = layoutInflater
-            .inflate(R.layout.layout_grid_recyclerview, parent, false) as View
+            .inflate(R.layout.layout_list_row, parent, false) as View
         return ViewHolder(view)
     }
 
-    override fun getItemCount() = dataList.size
+    override fun getItemCount() = data.size
 
-    override fun onBindViewHolder(holder: GridViewAdapter.ViewHolder, position: Int) {
-        val item = dataList[position]
+    override fun onBindViewHolder(holder: ListRowViewAdapter.ViewHolder, position: Int) {
+        val item = data[position]
         holder.bind(item)
     }
 
-    inner class ViewHolder(private val v: View) : RecyclerView.ViewHolder(v), OnCreateContextMenuListener {
+    inner class ViewHolder(private val v: View) : RecyclerView.ViewHolder(v), OnCreateContextMenuListener  {
         private val name: TextView = v.findViewById(R.id.name)
         private val date: TextView = v.findViewById(R.id.date)
-        private val image: ImageView = v.findViewById(R.id.image)
+        private var image : ImageView = v.findViewById(R.id.imageView)
         private var isDone : Boolean = false
 
         init{
             v.setOnCreateContextMenuListener(this)
         }
 
-
         fun bind(item: Event) {
             name.text = item.name
             date.text = item.date.toString()
-            imageDB.getImage(image, item.id)
             isDone= item.done
+            imageDB.getImage(image, item.id)
             v.setOnClickListener {
                 fragment.showDialog(item)
             }
@@ -69,9 +67,8 @@ class GridViewAdapter(var fragment : ListFragment) : RecyclerView.Adapter<GridVi
         }
 
     }
-
     fun getEvent(position: Int): Event {
-        return dataList[position]
+        return data[position]
     }
 
 }

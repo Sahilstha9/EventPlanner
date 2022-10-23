@@ -1,12 +1,9 @@
-package com.example.eventplanner.View.Fragments
+package com.example.eventplanner.view.fragments
 
-import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
@@ -15,7 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.eventplanner.R
-import com.example.eventplanner.View.Adapters.CalendarAdapter
+import com.example.eventplanner.view.adapters.CalendarAdapter
 import com.example.eventplanner.viewModel.ListViewModel
 import com.example.eventplanner.viewModel.classes.CurrentDayDecorator
 import com.example.eventplanner.viewModel.parcels.Event

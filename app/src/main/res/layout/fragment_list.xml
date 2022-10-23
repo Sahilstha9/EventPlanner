@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".View.Fragments.ListFragment">
+    tools:context=".view.fragments.ListFragment">
 
     <Button
         android:id="@+id/done"
@@ -41,7 +41,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentHolder"
-        android:name="com.example.eventplanner.View.Fragments.ChildListFragments.UpcomingFragment"
+        android:name="com.example.eventplanner.view.fragments.childListFragments.UpcomingFragment"
         android:layout_width="match_parent"
         android:layout_height="672dp"
         app:layout_constraintBottom_toBottomOf="parent"

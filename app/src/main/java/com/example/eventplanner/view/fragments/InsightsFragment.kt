@@ -1,4 +1,4 @@
-package com.example.eventplanner.View.Fragments
+package com.example.eventplanner.view.fragments
 
 import android.os.Bundle
 import android.view.View
@@ -6,7 +6,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.example.eventplanner.R
-import com.example.eventplanner.View.MyXAxisFormatter
+import com.example.eventplanner.view.MyXAxisFormatter
 import com.example.eventplanner.viewModel.InsightsViewModel
 import com.example.eventplanner.viewModel.classes.MyYAxisValueFormatter
 import com.github.mikephil.charting.charts.BarChart

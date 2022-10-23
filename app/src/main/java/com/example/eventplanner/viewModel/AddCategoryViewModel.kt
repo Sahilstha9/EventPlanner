@@ -4,11 +4,8 @@ import android.widget.TextView
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.categoryplanner.Modal.CategoryDatabase
-import com.example.eventplanner.Modal.EventDatabase
+import com.example.eventplanner.modal.CategoryDatabase
 import com.example.eventplanner.viewModel.parcels.Category
-import com.example.eventplanner.viewModel.parcels.Event
-import java.util.*
 
 class AddCategoryViewModel : ViewModel(){
     private var db : CategoryDatabase = CategoryDatabase

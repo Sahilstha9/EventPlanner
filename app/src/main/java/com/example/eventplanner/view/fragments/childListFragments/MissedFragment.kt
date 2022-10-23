@@ -1,35 +1,33 @@
-package com.example.eventplanner.View.Fragments.ChildListFragments
+package com.example.eventplanner.view.fragments.childListFragments
 
 import android.os.Bundle
-import android.view.MenuItem
 import androidx.fragment.app.Fragment
+import android.view.MenuItem
 import android.view.View
-import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.eventplanner.R
-import com.example.eventplanner.View.Adapters.GridViewAdapter
-import com.example.eventplanner.View.Fragments.ListFragment
+import com.example.eventplanner.view.adapters.CardViewAdapter
+import com.example.eventplanner.view.fragments.ListFragment
 import com.example.eventplanner.viewModel.ListViewModel
 
-class DoneFragment : Fragment(R.layout.fragment_done) {
+class MissedFragment : Fragment(R.layout.fragment_missed) {
 
-    private val TAG = "DoneFragment"
+    private val TAG = "MissedFragment"
     private lateinit var recyclerView: RecyclerView
-    private lateinit var adapter: GridViewAdapter
-    private lateinit var viewModel : ListViewModel
+    private lateinit var adapter: CardViewAdapter
+    private lateinit var viewModel: ListViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProvider(this)[ListViewModel::class.java]
         recyclerView = view.findViewById(R.id.recyclerView)
-        recyclerView.layoutManager = GridLayoutManager(requireActivity().applicationContext, 2)
-        adapter = GridViewAdapter(parentFragment as ListFragment)
-
-        viewModel.completedEvents.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-            adapter.setDataList(it)
-            recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(context)
+        adapter = CardViewAdapter(listOf(), parentFragment as ListFragment)
+        recyclerView.adapter = adapter
+        viewModel.missedEvents.observe(requireActivity(), androidx.lifecycle.Observer {
+            adapter.setData(it)
+            adapter.notifyDataSetChanged()
         })
     }
 
@@ -51,6 +49,7 @@ class DoneFragment : Fragment(R.layout.fragment_done) {
                 (parentFragment as ListFragment).alternateDone(adapter.getEvent(item.groupId))
                 true
             }
+
             else -> super.onContextItemSelected(item)
         }
     }

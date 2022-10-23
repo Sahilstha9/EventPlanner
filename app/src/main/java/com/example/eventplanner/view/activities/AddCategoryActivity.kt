@@ -1,6 +1,5 @@
-package com.example.eventplanner.View.Activities
+package com.example.eventplanner.view.activities
 
-import android.accounts.AuthenticatorDescription
 import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -10,11 +9,8 @@ import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import com.example.eventplanner.R
 import com.example.eventplanner.viewModel.AddCategoryViewModel
-import com.example.eventplanner.viewModel.AddEventViewModel
 import com.example.eventplanner.viewModel.parcels.Category
-import com.example.eventplanner.viewModel.parcels.Event
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import java.util.*
 
 class AddCategoryActivity : AppCompatActivity() {
     private lateinit var name : TextView

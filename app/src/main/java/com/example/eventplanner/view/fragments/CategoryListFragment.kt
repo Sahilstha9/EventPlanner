@@ -1,4 +1,4 @@
-package com.example.eventplanner.View.Fragments
+package com.example.eventplanner.view.fragments
 
 import android.app.Activity
 import android.content.ContentValues
@@ -12,11 +12,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.eventplanner.R
-import com.example.eventplanner.View.Activities.AddCategoryActivity
-import com.example.eventplanner.View.Adapters.CategoryListAdapter
-import com.example.eventplanner.View.Fragments.BottomSheet.CategoryBottomSheetFragment
+import com.example.eventplanner.view.activities.AddCategoryActivity
+import com.example.eventplanner.view.adapters.CategoryListAdapter
+import com.example.eventplanner.view.fragments.bottomSheet.CategoryBottomSheetFragment
 import com.example.eventplanner.viewModel.CategoryViewModel
-import com.example.eventplanner.viewModel.parcels.CategoriesWithEvent
 import com.example.eventplanner.viewModel.parcels.Category
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 

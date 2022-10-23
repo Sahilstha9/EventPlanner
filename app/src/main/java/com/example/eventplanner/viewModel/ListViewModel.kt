@@ -1,22 +1,17 @@
 package com.example.eventplanner.viewModel
 
-import android.graphics.BitmapFactory
 import android.util.Log
 import android.view.View
-import android.widget.ImageView
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.eventplanner.Modal.EventDatabase
-import com.example.eventplanner.Modal.ImageModal
+import com.example.eventplanner.modal.EventDatabase
+import com.example.eventplanner.modal.ImageModal
 import com.example.eventplanner.viewModel.parcels.Event
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.io.File
 import java.util.*
 
 class ListViewModel : ViewModel() {

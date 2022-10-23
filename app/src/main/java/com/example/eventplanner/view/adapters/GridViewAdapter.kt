@@ -1,4 +1,4 @@
-package com.example.eventplanner.View.Adapters
+package com.example.eventplanner.view.adapters
 
 import android.view.ContextMenu
 import android.view.LayoutInflater
@@ -8,29 +8,31 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.eventplanner.Modal.ImageModal
+import com.example.eventplanner.modal.ImageModal
 import com.example.eventplanner.R
-import com.example.eventplanner.View.Fragments.ListFragment
+import com.example.eventplanner.view.fragments.ListFragment
 import com.example.eventplanner.viewModel.parcels.Event
 
-class CardViewAdapter(private var data: List<Event>, var fragment: ListFragment) : RecyclerView.Adapter<CardViewAdapter.ViewHolder>()  {
+class GridViewAdapter(var fragment : ListFragment) : RecyclerView.Adapter<GridViewAdapter.ViewHolder>()  {
 
+    var dataList = emptyList<Event>()
     private val imageDB = ImageModal
 
-    fun setData(v : List<Event>){
-        data = v
+    internal fun setDataList(dataList : List<Event>){
+        this.dataList = dataList
     }
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewAdapter.ViewHolder {
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GridViewAdapter.ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val view = layoutInflater
-            .inflate(R.layout.layout_cardview_linear_row, parent, false) as View
+            .inflate(R.layout.layout_grid_recyclerview, parent, false) as View
         return ViewHolder(view)
     }
 
-    override fun getItemCount() = data.size
+    override fun getItemCount() = dataList.size
 
-    override fun onBindViewHolder(holder: CardViewAdapter.ViewHolder, position: Int) {
-        val item = data[position]
+    override fun onBindViewHolder(holder: GridViewAdapter.ViewHolder, position: Int) {
+        val item = dataList[position]
         holder.bind(item)
     }
 
@@ -38,7 +40,6 @@ class CardViewAdapter(private var data: List<Event>, var fragment: ListFragment)
         private val name: TextView = v.findViewById(R.id.name)
         private val date: TextView = v.findViewById(R.id.date)
         private val image: ImageView = v.findViewById(R.id.image)
-        private val description: TextView = v.findViewById(R.id.description)
         private var isDone : Boolean = false
 
         init{
@@ -51,7 +52,6 @@ class CardViewAdapter(private var data: List<Event>, var fragment: ListFragment)
             date.text = item.date.toString()
             imageDB.getImage(image, item.id)
             isDone= item.done
-            description.text = item.description
             v.setOnClickListener {
                 fragment.showDialog(item)
             }
@@ -71,7 +71,7 @@ class CardViewAdapter(private var data: List<Event>, var fragment: ListFragment)
     }
 
     fun getEvent(position: Int): Event {
-        return data[position]
+        return dataList[position]
     }
 
 }

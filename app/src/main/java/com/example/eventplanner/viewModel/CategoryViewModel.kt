@@ -1,12 +1,11 @@
 package com.example.eventplanner.viewModel
 
-import android.util.Log
 import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.categoryplanner.Modal.CategoryDatabase
-import com.example.eventplanner.Modal.EventDatabase
+import com.example.eventplanner.modal.CategoryDatabase
+import com.example.eventplanner.modal.EventDatabase
 import com.example.eventplanner.viewModel.parcels.CategoriesWithEvent
 import com.example.eventplanner.viewModel.parcels.Category
 import com.example.eventplanner.viewModel.parcels.Event

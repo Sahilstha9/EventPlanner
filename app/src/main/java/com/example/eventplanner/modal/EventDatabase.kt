@@ -1,4 +1,4 @@
-package com.example.eventplanner.Modal
+package com.example.eventplanner.modal
 
 import android.net.Uri
 import android.util.Log

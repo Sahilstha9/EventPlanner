@@ -1,4 +1,4 @@
-package com.example.eventplanner.Modal
+package com.example.eventplanner.modal
 
 import android.graphics.BitmapFactory
 import android.net.Uri

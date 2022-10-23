@@ -1,11 +1,8 @@
 package com.example.eventplanner.viewModel
 
-import android.util.Log
-import androidx.activity.result.ActivityResult
 import androidx.lifecycle.ViewModel
-import com.example.categoryplanner.Modal.CategoryDatabase
-import com.example.eventplanner.Modal.EventDatabase
-import com.example.eventplanner.viewModel.parcels.Event
+import com.example.eventplanner.modal.CategoryDatabase
+import com.example.eventplanner.modal.EventDatabase
 
 class AddFragmentViewModel : ViewModel() {
     private val TAG: String = "AddFragmentViewModel"

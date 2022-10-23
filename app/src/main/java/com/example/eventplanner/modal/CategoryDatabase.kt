@@ -1,23 +1,14 @@
-package com.example.categoryplanner.Modal
+package com.example.eventplanner.modal
 
-import android.app.Activity
 import android.util.Log
 import android.view.View
-import com.example.eventplanner.viewModel.ListViewModel
 import com.example.eventplanner.viewModel.parcels.Category
-import com.google.android.gms.tasks.Tasks.await
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.database.*
-import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.flow.callbackFlow
 import java.util.Observable
 
 object CategoryDatabase : Observable(){
-    val TAG = "CategoryDatabase"
+    const val TAG = "CategoryDatabase"
     fun getDatabaseRef() : DatabaseReference {
         return FirebaseDatabase.getInstance().getReference("categories")
     }

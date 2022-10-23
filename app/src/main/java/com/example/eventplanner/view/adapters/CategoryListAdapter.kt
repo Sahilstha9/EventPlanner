@@ -1,24 +1,19 @@
-package com.example.eventplanner.View.Adapters
+package com.example.eventplanner.view.adapters
 
-import android.util.Log
 import android.view.ContextMenu
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnCreateContextMenuListener
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.PopupMenu
 import android.widget.TextView
-import androidx.appcompat.app.ActionBar.LayoutParams
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.eventplanner.R
-import com.example.eventplanner.View.Fragments.CategoryListFragment
+import com.example.eventplanner.view.fragments.CategoryListFragment
 import com.example.eventplanner.viewModel.parcels.CategoriesWithEvent
 import com.example.eventplanner.viewModel.parcels.Category
 import com.example.eventplanner.viewModel.parcels.Event
-import org.w3c.dom.Text
-import java.util.*
 
 class CategoryListAdapter(private val fragment : CategoryListFragment)  : RecyclerView.Adapter<CategoryListAdapter.ViewHolder>(){
     private val TAG: String = "CategoryListAdapter"
