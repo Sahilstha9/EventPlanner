@@ -14,5 +14,6 @@ class AboutActivity : AppCompatActivity() {
 
         about.text = "This is a Event Planner Application\nThis is Level 2 Application"
 
+
     }
 }

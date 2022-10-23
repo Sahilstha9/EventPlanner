@@ -2,6 +2,7 @@ package com.example.eventplanner.View.Activities
 
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -36,11 +37,11 @@ class MainActivity : AppCompatActivity() {
     val getEvent = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()) {
         if(it.resultCode == Activity.RESULT_OK){
-            var intent = it.data
-            var parcel : Event = intent?.getParcelableExtra("event")!!
+            val intent = it.data
+            val parcel : Event = intent?.getParcelableExtra("event")!!
             Log.i(TAG, parcel.name)
 
-            dbEvent.createEvent(parcel, findViewById(R.id.coordinator))
+            dbEvent.createEvent(parcel, findViewById(R.id.coordinator), intent?.getParcelableExtra<Uri>("image"))
         }
     }
 

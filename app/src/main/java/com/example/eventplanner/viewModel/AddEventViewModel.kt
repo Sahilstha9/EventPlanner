@@ -1,10 +1,13 @@
 package com.example.eventplanner.viewModel
 
+import android.graphics.Bitmap
+import android.net.Uri
 import android.util.Log
 import android.widget.TextView
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.categoryplanner.Modal.CategoryDatabase
 import com.example.eventplanner.Modal.EventDatabase
 import com.example.eventplanner.viewModel.parcels.Category
@@ -12,6 +15,7 @@ import com.example.eventplanner.viewModel.parcels.Event
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import kotlinx.coroutines.launch
 import java.util.*
 
 class AddEventViewModel : ViewModel(){
@@ -54,49 +58,49 @@ class AddEventViewModel : ViewModel(){
     fun inputValidation(name : TextView, date: TextView, location : TextView, time: TextView) : Boolean{
         var isValid = true
         if(name.text.isEmpty()){
-            name.setError("This field can not be empty")
+            name.error = "This field can not be empty"
             isValid = false
         }
         else if (!validNoun(name.text.toString())){
-            name.setError("Invalid Characters Found")
+            name.error = "Invalid Characters Found"
             isValid = false
         }
         if(date.text.isEmpty()){
-            date.setError("This field can not be empty")
+            date.error = "This field can not be empty"
             isValid = false
         }else if(!validDate(date.text.toString())){
-            date.setError("Invalid format! Please enter in format(dd-mm-yyyy)")
+            date.error = "Invalid format! Please enter in format(dd-mm-yyyy)"
             isValid = false
         }
         if (location.text.isEmpty()){
-            location.setError("This field can not be empty")
+            location.error = "This field can not be empty"
             isValid = false
         }
         if(time.text.isEmpty()){
-            time.setError("This field can not be empty")
+            time.error = "This field can not be empty"
             isValid = false
         }
         else if(!validTime(time.text.toString())){
-            time.setError("Invalid Time Format! Please Enter in format (hh:mm)")
+            time.error = "Invalid Time Format! Please Enter in format (hh:mm)"
             isValid = false
         }
         return isValid
     }
 
     private fun validDate(dateStr: String?): Boolean {
-        val re = Regex("(([0-2][0-9])|([3][0-1]))-(([0][0-9])|([1][0-2]))-20(([0-1]\\d)|(2[0-2]))")
+        val re = Regex("(([0-2][0-9])|([3][0-1]))((\\/)|-)(([0]?[1-9])|([1][0-2]))((\\/)|-)20(([0-1]\\d)|(2[0-9]))")
         if(dateStr!!.matches(re)) return true
         return false
     }
 
     private fun validNoun(str : String) : Boolean{
-        val re = Regex("^(?![\\s.]+\$)[a-zA-Z\\s.]*\$")
+        val re = Regex("^(?![\\s.]+\$)[a-zA-Z0-9\\s.]*\$")
         if(str.matches(re)) return true
         return false
     }
 
     private fun validTime(time : String) : Boolean{
-        val re = Regex("^(([0-1][0-9])|(2[0-3])):([0-5][0-9])$")
+        val re = Regex("^(([0-1]?[0-9])|(2[0-3])):([0-5][0-9])$")
         if(time.matches(re)) return true
         return false
     }

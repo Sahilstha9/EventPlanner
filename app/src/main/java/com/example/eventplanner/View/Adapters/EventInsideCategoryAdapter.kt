@@ -9,16 +9,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.eventplanner.R
 import com.example.eventplanner.View.Activities.MainActivity
 import com.example.eventplanner.View.Fragments.CalendarFragment
+import com.example.eventplanner.View.Fragments.CategoryListFragment
 import com.example.eventplanner.viewModel.parcels.Event
 import com.google.android.material.chip.Chip
 import java.util.*
 
-class EventInsideCategoryAdapter(private var data: List<Event>) : RecyclerView.Adapter<EventInsideCategoryAdapter.ViewHolder>()  {
+class EventInsideCategoryAdapter(private var data: List<Event>, private val fragment: CategoryListFragment) : RecyclerView.Adapter<EventInsideCategoryAdapter.ViewHolder>()  {
 
-    private val TAG: String = "CalendarAdapter"
+    private val TAG: String = "EventInsideCategoryAdapter"
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventInsideCategoryAdapter.ViewHolder {
-        Log.i(TAG, "Created")
         val layoutInflater = LayoutInflater.from(parent.context)
         val view = layoutInflater
             .inflate(R.layout.simple_row, parent, false) as View
@@ -40,6 +40,7 @@ class EventInsideCategoryAdapter(private var data: List<Event>) : RecyclerView.A
         private val name: TextView = v.findViewById(R.id.name)
 
         fun bind(item: Event) {
+            Log.i(TAG, item.toString())
             name.text = item.name
         }
 

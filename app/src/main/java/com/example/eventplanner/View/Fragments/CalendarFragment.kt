@@ -39,7 +39,7 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
         textView.text = "Events"
         calendar = view.findViewById(R.id.calendarView)
         recyclerView = view.findViewById(R.id.recyclerView)
-        val myDate = CalendarDay.from(2022, 10, 18)
+        val myDate = CalendarDay.today()
         calendar.addDecorator(
             CurrentDayDecorator(
                 activity,
@@ -50,7 +50,7 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
         viewModel = ViewModelProvider(this)[ListViewModel::class.java]
 
         recyclerView.layoutManager = LinearLayoutManager(context)
-        val adapter = CalendarAdapter(mutableListOf(), this)
+        val adapter = CalendarAdapter(mutableListOf(), requireContext())
         recyclerView.adapter = adapter
 
         recyclerViewValueAdd(CalendarDay.today(), adapter)
@@ -71,7 +71,7 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
             for (i in it){
                 if(i.date.year == date.year){
                     if (i.date.month + 1 == date.month){
-                        val event = Event(i.name, Date(i.date.year, i.date.month + 1, i.date.date + 1, i.date.hours, i.date.minutes),  i.category, i.description,  i.location, i.done)
+                        val event = Event(i.name, Date(i.date.year, i.date.month, i.date.date, i.date.hours, i.date.minutes),  i.category, i.description,  i.location, i.done)
                         c.add(event)
                     }
                 }
@@ -84,7 +84,7 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
     private fun calendarDecorator(list : MutableLiveData<MutableList<Event>>, drawable: Drawable?){
         list.observe(viewLifecycleOwner, Observer {
             for (i in it) {
-                val calendarDay = CalendarDay.from(i.date.year, i.date.month + 1, i.date.date + 1)
+                val calendarDay = CalendarDay.from(i.date.year, i.date.month + 1, i.date.date)
                 calendar.addDecorator(
                     CurrentDayDecorator(
                         activity,

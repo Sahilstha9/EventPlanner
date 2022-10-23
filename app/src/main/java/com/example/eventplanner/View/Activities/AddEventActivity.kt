@@ -2,13 +2,16 @@ package com.example.eventplanner.View.Activities
 
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.widget.*
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.eventplanner.R
 import com.example.eventplanner.viewModel.AddEventViewModel
+import com.example.eventplanner.viewModel.parcels.Category
 import com.example.eventplanner.viewModel.parcels.Event
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.util.*
@@ -27,7 +30,20 @@ class AddEventActivity : AppCompatActivity() {
     private lateinit var done : RadioButton
     private lateinit var notDone : RadioButton
     private var isDone : Boolean = true
+    private lateinit var img : ImageView
+    private var imageSelected = false
+    private lateinit var btnImage : Button
+    private var categoryList = mutableListOf<Category>()
     private lateinit var viewModel: AddEventViewModel
+    private var image : Uri? = null
+
+    private val getContent = registerForActivityResult(ActivityResultContracts.GetContent()){
+        if (it != null){
+            imageSelected = true
+            img.setImageURI(it)
+            image = it
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +62,8 @@ class AddEventActivity : AppCompatActivity() {
         done = findViewById(R.id.done)
         notDone = findViewById(R.id.notDone)
         btnAddEvent = findViewById(R.id.btnAddEvent)
+        btnImage = findViewById(R.id.getImage)
+        img = findViewById(R.id.img)
 
         if(data != null){
             setText(data)
@@ -61,49 +79,58 @@ class AddEventActivity : AppCompatActivity() {
                 this,
                 android.R.layout.simple_spinner_item, categoryNameList
             )
+            categoryList = catList
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             categories.adapter = adapter
         })
 
+        btnImage.setOnClickListener{
+            getContent.launch("image/*")
+        }
+
         btnAddEvent.setOnClickListener() {
             Log.i("New", done.isChecked.toString())
+            var c : Category? = null
+            for (i in categoryList){
+                if(i.name == categories.selectedItem.toString()){
+                    c = i
+                }
+            }
             if (viewModel.inputValidation(name, date, location, time)) {
                 isDone = done.isChecked
                 val splitDate = date.text.toString().split("-")
                 val splitTime = time.text.toString().split(":")
-                var id = ""
-                if (data != null) {
-                    id = data.id
-                }
                 val event = Event(
                     name.text.toString(),
                     Date(
                         splitDate[2].toInt(),
-                        splitDate[1].toInt() - 1,
-                        splitDate[0].toInt() - 1,
+                        splitDate[1].toInt() - 1 ,
+                        splitDate[0].toInt(),
                         splitTime[0].toInt(),
                         splitTime[1].toInt()
                     ),
-                    "",
+                    c?.id ?: "",
                     description.text.toString(),
                     location.text.toString(),
                     isDone,
-                    id
+                    id = data?.id ?: ""
                 )
                 intent.putExtra("event", event)
+                intent.putExtra("image", image)
                 setResult(RESULT_OK, intent)
                 finish()
             }
         }
     }
 
+
     private fun setText(event: Event){
             name.text = event.name
-            date.text = "${event.date.date}-${event.date.month}-${event.date.year}"
+            date.text = "${event.date.date}-${event.date.month + 1}-${event.date.year}"
             location.text = event.location
             time.text = "${event.date.hours}:${event.date.minutes}"
             description.text = event.description
-            done.isSelected = event.done
+            done.isChecked = event.done
     }
 
 

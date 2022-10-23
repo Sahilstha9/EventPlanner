@@ -21,7 +21,6 @@ object CategoryDatabase : Observable(){
     fun getDatabaseRef() : DatabaseReference {
         return FirebaseDatabase.getInstance().getReference("categories")
     }
-    private var categoryList : MutableList<Category> = mutableListOf()
 
     fun createCategory(category: Category,view: View){
         category.id = getDatabaseRef().push().key!!
@@ -46,7 +45,7 @@ object CategoryDatabase : Observable(){
 
     fun deleteCategory(category : Category, view : View){
         getDatabaseRef().child(category.id).removeValue().addOnSuccessListener {
-            Snackbar.make(view, "Category has been successfully added", Snackbar.LENGTH_LONG).show()
+            Snackbar.make(view, "Category has been successfully deleted", Snackbar.LENGTH_LONG).show()
             Log.i(TAG, "${category.id} Record Deleted")
         }.addOnCanceledListener {
             Log.i(TAG, "${category.id} Record Failed to be deleted")

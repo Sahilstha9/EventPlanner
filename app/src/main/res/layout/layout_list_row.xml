@@ -35,12 +35,4 @@
             android:text="@string/textview"
             android:textSize="15sp"/>
     </LinearLayout>
-
-    <ImageButton
-        android:id="@+id/menu"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
-         android:layout_marginTop="30dp"
-        />
 </LinearLayout>

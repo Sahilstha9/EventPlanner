@@ -3,6 +3,8 @@ package com.example.eventplanner.View.Fragments
 import android.app.Activity
 import android.content.ContentValues.TAG
 import android.content.Intent
+import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -10,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
@@ -21,6 +24,7 @@ import com.example.eventplanner.View.Fragments.ChildListFragments.MissedFragment
 import com.example.eventplanner.View.Fragments.ChildListFragments.UpcomingFragment
 import com.example.eventplanner.viewModel.ListViewModel
 import com.example.eventplanner.viewModel.parcels.Event
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class ListFragment : Fragment(R.layout.fragment_list) {
 
@@ -80,7 +84,22 @@ class ListFragment : Fragment(R.layout.fragment_list) {
         bottomSheet.show(childFragmentManager, "Long")
     }
 
-    fun deleteEvent(event: Event) {viewModal.deleteEvent(event, this.requireView())}
+    fun deleteEvent(event: Event) {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle("Warning")
+            .setMessage("You will lose the data permanently\nAre you sure?")
+            .setNegativeButton("No"){ dialog, which->
+
+            }
+            .setPositiveButton("Yes"){dialog, which->
+                viewModal.deleteEvent(event, this.requireView())
+            }.show()
+    }
+
+    fun alternateDone(event: Event){
+        event.done = !event.done
+        viewModal.updateEvent(event, requireView())
+    }
 
     fun editEvent(event: Event) {
         eventActivityIntent = Intent(context, AddEventActivity::class.java)

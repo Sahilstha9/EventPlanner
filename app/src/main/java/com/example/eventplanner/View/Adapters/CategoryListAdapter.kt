@@ -1,7 +1,10 @@
 package com.example.eventplanner.View.Adapters
 
+import android.util.Log
+import android.view.ContextMenu
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.OnCreateContextMenuListener
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.PopupMenu
@@ -11,15 +14,17 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.eventplanner.R
 import com.example.eventplanner.View.Fragments.CategoryListFragment
+import com.example.eventplanner.viewModel.parcels.CategoriesWithEvent
 import com.example.eventplanner.viewModel.parcels.Category
 import com.example.eventplanner.viewModel.parcels.Event
 import org.w3c.dom.Text
 import java.util.*
 
 class CategoryListAdapter(private val fragment : CategoryListFragment)  : RecyclerView.Adapter<CategoryListAdapter.ViewHolder>(){
-    var dataList = emptyList<Category>()
+    private val TAG: String = "CategoryListAdapter"
+    var dataList = emptyList<CategoriesWithEvent>()
 
-    internal fun setDataList(dataList : List<Category>){
+    internal fun setDataList(dataList : List<CategoriesWithEvent>){
         this.dataList = dataList
     }
 
@@ -37,59 +42,55 @@ class CategoryListAdapter(private val fragment : CategoryListFragment)  : Recycl
         holder.bind(item)
     }
 
-    inner class ViewHolder(private val v: View) : RecyclerView.ViewHolder(v) {
+    inner class ViewHolder(private val v: View) : RecyclerView.ViewHolder(v), OnCreateContextMenuListener {
         private val name: TextView = v.findViewById(R.id.name)
         private var recyclerView = v.findViewById<RecyclerView>(R.id.recyclerView)
         private var menu : ImageView = v.findViewById(R.id.menu)
 
-        private fun popContextMenu(category: Category) {
-            val popupMenu = PopupMenu(fragment.context, menu)
-            popupMenu.inflate(R.menu.context_menu)
-            popupMenu.setOnMenuItemClickListener {
-                when (it.itemId){
-                    R.id.edit->{
-                        fragment.editCategory(category)
-                        true
-                    }
-                    R.id.delete->{
-                        fragment.deleteCategory(category)
-                        true
-                    }
-                    else -> true
-                }
-            }
-            popupMenu.show()
-            val popup = PopupMenu::class.java.getDeclaredField("mPopup")
-            popup.isAccessible = true
-            val menu = popup.get(popupMenu)
-            menu.javaClass.getDeclaredMethod("setForceShowIcon", Boolean::class.java)
-                .invoke(menu, true)
-        }
 
-        fun bind(item: Category) {
-            name.text = item.name
+        init {
+            v.setOnCreateContextMenuListener(this)
+        }
+        fun bind(item: CategoriesWithEvent) {
+            name.text = item.category!!.name
             recyclerView.layoutManager = LinearLayoutManager(fragment.context)
-            val adapter = EventInsideCategoryAdapter(populateArray())
+            v.setBackgroundColor(fragment.resources.getColor(androidx.appcompat.R.color.material_grey_100))
+            val c = mutableListOf<Event>()
+            for (i in item.events!!){
+                c.add(i)
+            }
+            val adapter = EventInsideCategoryAdapter(c, fragment)
             recyclerView.adapter = adapter
-            v.setOnClickListener {
-                var params : ViewGroup.LayoutParams = recyclerView.layoutParams
-                params.height = ViewGroup.LayoutParams.WRAP_CONTENT
+            menu.setOnClickListener {
+                val params : ViewGroup.LayoutParams = recyclerView.layoutParams
+                if(params.height == ViewGroup.LayoutParams.WRAP_CONTENT){
+                    params.height = 0
+                }
+                else{
+                    params.height = ViewGroup.LayoutParams.WRAP_CONTENT
+                }
                 recyclerView.layoutParams = params
-//                fragment.showDialog(item)
             }
-            menu.setOnClickListener(){
-                popContextMenu(item)
+
+            v.setOnClickListener() {
+                fragment.showDialog(item.category!!)
+                true
             }
         }
 
-        fun populateArray(): MutableList<Event> {
-            return mutableListOf<Event>(
-                Event("a", Date(1, 2, 2), "c", "d", "e", true),
-                Event("a", Date(1, 2, 2), "c", "d", "e", true),
-                Event("a", Date(1, 2, 2), "c", "d", "e", true),
-                Event("a", Date(1, 2, 2), "c", "d", "e", true)
-            )
+        override fun onCreateContextMenu(
+            menu: ContextMenu?,
+            v: View?,
+            menuInfo: ContextMenu.ContextMenuInfo?
+        ) {
+            menu!!.setHeaderTitle("Menu Options")
+            menu.add(adapterPosition, 101, 0, "Edit")
+            menu.add(adapterPosition, 102, 0, "Delete")
         }
 
+    }
+
+    fun getCategory(position: Int): Category {
+        return dataList[position].category!!
     }
 }

@@ -1,11 +1,13 @@
 package com.example.eventplanner.viewModel
 
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.categoryplanner.Modal.CategoryDatabase
 import com.example.eventplanner.Modal.EventDatabase
+import com.example.eventplanner.viewModel.parcels.CategoriesWithEvent
 import com.example.eventplanner.viewModel.parcels.Category
 import com.example.eventplanner.viewModel.parcels.Event
 import com.google.firebase.database.DataSnapshot
@@ -17,7 +19,8 @@ class CategoryViewModel : ViewModel(){
 
     private val TAG: String = "CategoryListModal"
     private var db = CategoryDatabase
-    var categoryList : MutableLiveData<MutableList<Category>> = MutableLiveData<MutableList<Category>>()
+    private var eventDb = EventDatabase
+    var categoryList : MutableLiveData<MutableList<CategoriesWithEvent>> = MutableLiveData<MutableList<CategoriesWithEvent>>()
 
     init {
         listenToCategory()
@@ -26,13 +29,27 @@ class CategoryViewModel : ViewModel(){
     private fun listenToCategory() {
         db.getDatabaseRef().addValueEventListener(object : ValueEventListener {
             override fun onDataChange(categories: DataSnapshot) {
-                val data : MutableList<Category> = mutableListOf()
+                val data : MutableList<CategoriesWithEvent> = mutableListOf()
                 if(categories.exists()){
                     for (e in categories.children){
+                        val cat = CategoriesWithEvent()
                         val category = e.getValue(Category::class.java)
-                        data.add(category!!)
+                        eventDb.getDatabaseRef().get().addOnSuccessListener {
+                            val events = mutableListOf<Event>()
+                            if(it.exists()){
+                                for (i in it.children){
+                                    val event = i.getValue(Event::class.java)
+                                    if(event?.category == category?.id){
+                                        events.add(event!!)
+                                    }
+                                }
+                                cat.events = events
+                                cat.category = category
+                                data.add(cat)
+                                categoryList.postValue(data)
+                            }
+                        }
                     }
-                    categoryList.value = data
                 }
             }
 

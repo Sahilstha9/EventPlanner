@@ -1,5 +1,6 @@
 package com.example.eventplanner.Modal
 
+import android.net.Uri
 import android.util.Log
 import android.view.View
 import com.example.eventplanner.viewModel.parcels.Event
@@ -10,15 +11,17 @@ import java.util.*
 
 object EventDatabase : Observable(){
     val TAG = "EventDatabase"
+    private var imageDB = ImageModal
     private var mEventList : MutableList<Event> = mutableListOf()
 
     fun getDatabaseRef() : DatabaseReference {
         return FirebaseDatabase.getInstance().getReference("Events")
     }
 
-    fun createEvent(event : Event, view: View){
+    fun createEvent(event : Event, view: View, img : Uri?){
         event.id = getDatabaseRef().push().key!!
-
+        event.imageLoc = event.id
+        imageDB.uploadImage(img, event.id)
         getDatabaseRef().child(event.id).setValue(event).addOnSuccessListener {
             Snackbar.make(view, "Event has been successfully added", Snackbar.LENGTH_LONG).show()
             Log.i(TAG, "1 document added to Event Collection")

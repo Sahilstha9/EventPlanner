@@ -6,6 +6,31 @@
     android:layout_height="match_parent"
     tools:context=".View.Activities.AddEventActivity">
 
+    <Button
+        android:id="@+id/getImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/teal_200"
+        android:text="Get Image"
+        app:layout_constraintBottom_toTopOf="@+id/btnAddEvent"
+        app:layout_constraintEnd_toEndOf="@+id/radioGroup"
+        app:layout_constraintHorizontal_bias="0.607"
+        app:layout_constraintStart_toStartOf="@+id/radioGroup"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup"
+        app:layout_constraintVertical_bias="0.183" />
+
+    <ImageView
+        android:id="@+id/img"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+
+        app:layout_constraintBottom_toTopOf="@+id/btnAddEvent"
+        app:layout_constraintEnd_toEndOf="@+id/getImage"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="@+id/getImage"
+        app:layout_constraintTop_toBottomOf="@+id/getImage"
+        app:layout_constraintVertical_bias="0.288" />
+
     <EditText
         android:id="@+id/description"
         android:layout_width="214dp"
@@ -16,50 +41,25 @@
         android:inputType="textPersonName"
         android:lines="8"
         android:maxLines="8"
-        app:layout_constraintBottom_toTopOf="@+id/location"
         app:layout_constraintEnd_toEndOf="@+id/date"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@+id/date"
         app:layout_constraintTop_toBottomOf="@+id/date" />
-
-    <Button
-        android:id="@+id/getImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Get Image"
-        android:backgroundTint="@color/teal_200"
-        app:layout_constraintBottom_toTopOf="@+id/btnAddEvent"
-        app:layout_constraintEnd_toEndOf="@+id/categories"
-        app:layout_constraintHorizontal_bias="0.554"
-        app:layout_constraintStart_toStartOf="@+id/categories"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
-
-    <ImageView
-        android:id="@+id/img"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        app:layout_constraintBottom_toBottomOf="@+id/getImage"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.549"
-        app:layout_constraintStart_toStartOf="@+id/getImage"
-        app:layout_constraintTop_toTopOf="@+id/getImage"
-        app:layout_constraintVertical_bias="0.428" />
 
     <EditText
         android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:ems="10"
         android:hint="@string/name"
-
         android:inputType="textPersonName"
         android:minHeight="48dp"
         app:layout_constraintBottom_toTopOf="@+id/date"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.487"
+        app:layout_constraintHorizontal_bias="0.099"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="spread" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/date"
@@ -79,55 +79,44 @@
     <EditText
         android:id="@+id/location"
         android:layout_width="200dp"
-        android:layout_height="48dp"
+        android:layout_height="69dp"
         android:ems="10"
         android:hint="@string/location"
         android:inputType="textPersonName"
         android:lines="2"
-        app:layout_constraintBottom_toTopOf="@+id/time"
-        app:layout_constraintEnd_toEndOf="@+id/description"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="@+id/description"
-        app:layout_constraintTop_toBottomOf="@+id/description"
-        app:layout_constraintVertical_bias="0.08" />
+        app:layout_constraintBottom_toTopOf="@+id/date"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.668"
+        app:layout_constraintStart_toEndOf="@+id/name"
+        app:layout_constraintTop_toTopOf="@+id/name"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Spinner
         android:id="@+id/categories"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
         android:contentDescription="@string/add"
         android:minHeight="48dp"
         android:spinnerMode="dropdown"
-        app:layout_constraintBottom_toTopOf="@+id/radioGroup"
         app:layout_constraintEnd_toEndOf="@+id/location"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/location"
-        app:layout_constraintTop_toBottomOf="@+id/time"
-        app:layout_constraintVertical_bias="0.291" />
+        app:layout_constraintTop_toBottomOf="@+id/time" />
 
-    <Button
-        android:id="@+id/btnAddEvent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/add_event"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/categories"
-        app:layout_constraintHorizontal_bias="0.548"
-        app:layout_constraintStart_toStartOf="@+id/categories"
-        app:layout_constraintTop_toBottomOf="@+id/getImage"
-        app:layout_constraintVertical_bias="0.931" />
 
     <RadioGroup
         android:id="@+id/radioGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/getImage"
+        android:layout_marginBottom="160dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/btnAddEvent"
         app:layout_constraintEnd_toEndOf="@+id/categories"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="@+id/categories"
+        app:layout_constraintHorizontal_bias="0.51"
+        app:layout_constraintStart_toStartOf="@+id/description"
         app:layout_constraintTop_toBottomOf="@+id/categories"
-        app:layout_constraintVertical_bias="0.786">
+        app:layout_constraintVertical_bias="0.985">
 
         <RadioButton
             android:id="@id/done"
@@ -142,20 +131,33 @@
             android:layout_height="wrap_content"
             android:checked="true"
             android:text="@string/not_done" />
+
     </RadioGroup>
 
     <EditText
         android:id="@+id/time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
         android:ems="10"
         android:hint="@string/time_hh_mm"
         android:inputType="time"
         android:minHeight="48dp"
-        app:layout_constraintBottom_toTopOf="@+id/categories"
-        app:layout_constraintEnd_toEndOf="@+id/date"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="@+id/date"
+        app:layout_constraintEnd_toEndOf="@+id/location"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/location"
         app:layout_constraintTop_toBottomOf="@+id/location" />
+
+    <Button
+        android:id="@+id/btnAddEvent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add_event"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/radioGroup"
+        app:layout_constraintHorizontal_bias="0.586"
+        app:layout_constraintStart_toStartOf="@+id/radioGroup"
+        app:layout_constraintTop_toBottomOf="@+id/description"
+        app:layout_constraintVertical_bias="0.146" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

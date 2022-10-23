@@ -1,25 +1,31 @@
 package com.example.eventplanner.View.Adapters
 
+import android.R.attr.button
+import android.content.Context
+import android.content.res.ColorStateList
+import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.eventplanner.R
-import com.example.eventplanner.View.Activities.MainActivity
 import com.example.eventplanner.View.Fragments.CalendarFragment
 import com.example.eventplanner.viewModel.parcels.Event
 import com.google.android.material.chip.Chip
 import java.util.*
 
-class CalendarAdapter(private var data: List<Event>, context: CalendarFragment) : RecyclerView.Adapter<CalendarAdapter.ViewHolder>()  {
+
+class CalendarAdapter(private var data: List<Event>, context: Context) : RecyclerView.Adapter<CalendarAdapter.ViewHolder>()  {
 
     private val TAG: String = "CalendarAdapter"
-    private val context : CalendarFragment = context
+    private val context : Context = context
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CalendarAdapter.ViewHolder {
-        Log.i(TAG, "Created")
         val layoutInflater = LayoutInflater.from(parent.context)
         val view = layoutInflater
             .inflate(R.layout.layout_list_simple_row, parent, false) as View
@@ -43,19 +49,24 @@ class CalendarAdapter(private var data: List<Event>, context: CalendarFragment) 
         private val chip: Chip = v.findViewById(R.id.chip)
 
         fun bind(item: Event) {
-            if (item.done) {chip.setBackgroundColor(context.resources.getColor(R.color.done))}
+            val currentDate = Date()
+            currentDate.year = currentDate.year + 1900
+            if (item.done) {
+                chip.chipBackgroundColor = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.done))
+            }
             else{
-                if(item.date > Date()){
-                    chip.setBackgroundColor(context.resources.getColor(R.color.upcoming))
+                if(item.date > currentDate){
+                    Log.i(TAG, "$currentDate ${item.date}")
+                    Log.i(TAG, "${item.name}")
+                    chip.chipBackgroundColor = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.upcoming))
                 }
                 else{
-                    chip.setBackgroundColor(context.resources.getColor(R.color.missed))
+                    chip.chipBackgroundColor = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.missed))
                 }
             }
+            chip.invalidate()
             name.text = item.name
-            var d = item.date.date.toString()
-            date.text = d
-            v.setOnClickListener { }
+            date.text = item.date.date.toString()
         }
 
     }

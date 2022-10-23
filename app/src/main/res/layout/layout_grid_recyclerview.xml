@@ -34,19 +34,13 @@
 
         <TextView
             android:id="@+id/date"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="164dp"
+            android:layout_height="58dp"
+            android:layout_marginLeft="14dp"
+            android:layout_marginTop="10dp"
             android:text="Desc"
             android:textColor="@color/black"
-            android:textSize="17sp"
-            android:layout_marginLeft="14dp"
-            android:layout_marginTop="10dp"/>
-
-        <ImageButton
-            android:id="@+id/menu"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_baseline_keyboard_arrow_down_24" />
+            android:textSize="17sp" />
 
 
     </LinearLayout>
