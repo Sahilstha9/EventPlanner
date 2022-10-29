@@ -51,8 +51,6 @@ class CalendarAdapter(private var data: List<Event>, context: Context) : Recycle
             }
             else{
                 if(item.date > currentDate){
-                    Log.i(TAG, "$currentDate ${item.date}")
-                    Log.i(TAG, "${item.name}")
                     chip.chipBackgroundColor = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.upcoming))
                 }
                 else{

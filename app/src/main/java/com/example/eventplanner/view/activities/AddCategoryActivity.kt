@@ -34,7 +34,7 @@ class AddCategoryActivity : AppCompatActivity() {
 
         btnAddCategory.setOnClickListener(){
             if(viewModel.inputValidation(name)) {
-                val category = Category(name.text.toString(), description.text.toString(), data?.id ?: "")
+                val category = Category(name.text.toString(), description.text.toString(), data?.id ?: "", userId = viewModel.getUser())
                 intent.putExtra("category", category)
                 setResult(RESULT_OK, intent)
                 finish()
@@ -51,10 +51,10 @@ class AddCategoryActivity : AppCompatActivity() {
         MaterialAlertDialogBuilder(this)
             .setTitle("Warning")
             .setMessage("You will lose all your saved changes\nAre you sure?")
-            .setNegativeButton("No"){ dialog, which->
+            .setNegativeButton("No"){ _, _ ->
 
             }
-            .setPositiveButton("Yes"){dialog, which->
+            .setPositiveButton("Yes"){ _, _ ->
                 setResult(Activity.RESULT_CANCELED, intent)
                 finish()
             }

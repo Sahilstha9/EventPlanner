@@ -25,4 +25,6 @@
     <string name="edit">Edit</string>
     <string name="avcash">TextView</string>
     <string name="category">Category</string>
+    <string name="login">Login</string>
+    <string name="signUp">Sign Up</string>
 </resources>

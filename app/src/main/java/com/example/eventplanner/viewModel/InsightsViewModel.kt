@@ -16,60 +16,26 @@ import java.util.Date
 
 class InsightsViewModel : ViewModel() {
     private val TAG = "InsightsViewModel"
+    private val categoryDB = CategoryDatabase
+    private val eventDB = EventDatabase
+    val eventList = eventDB.mEventList
     val upcomingCount = MutableLiveData<Int>(0)
     val missedCount = MutableLiveData<Int>(0)
     val completedCount = MutableLiveData<Int>(0)
-    val categoryList = MutableLiveData<MutableList<String>>()
-    private val categoryRef = CategoryDatabase.getDatabaseRef()
-    private val eventRef = EventDatabase.getDatabaseRef()
+    private val categoryList : MutableList<String> = mutableListOf()
 
     init {
-        listenToCategory()
-        listenToEvent()
-    }
-
-    private fun listenToCategory() {
-        categoryRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(categories: DataSnapshot) {
-                val data : MutableList<String> = mutableListOf()
-                if(categories.exists()){
-                    for (e in categories.children){
-                        val category = e.getValue(Category::class.java)
-                        data.add(category!!.name)
-                    }
-                    categoryList.value = data
-                }
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
-
-        })
-    }
-
-    private fun listenToEvent() {
-        eventRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(events: DataSnapshot) {
-                val data : MutableList<Event> = mutableListOf()
-                if(events.exists()){
-                    for (e in events.children){
-                        val event = e.getValue(Event::class.java)
-                        data.add(event!!)
-                    }
-                    initLists(data)
-                }
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
-
-        })
+        for (i in categoryDB.mCategoryList.value ?: mutableListOf()){
+            categoryList.add(i.name)
+        }
     }
 
     fun initLists(list: List<Event>){
+        completedCount.value = 0
+        missedCount.value = 0
+        upcomingCount.value = 0
         viewModelScope.launch {
+
             val currentDate = Date()
             currentDate.year = 1900 + currentDate.year
             for(i in list){
@@ -85,10 +51,8 @@ class InsightsViewModel : ViewModel() {
                         missedCount.value = missedCount.value?.plus(1)
                     }
                 }
-                if(categoryList.value != null){
-                    if(categoryList.value?.contains(i.category) == false){
-                        categoryList.value!!.add(i.category)
-                    }
+                if(!categoryList.contains(i.category)){
+                    categoryList.add(i.category)
                 }
             }
         }

@@ -4,15 +4,20 @@ import android.widget.TextView
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.eventplanner.modal.AuthenticationModal
 import com.example.eventplanner.modal.CategoryDatabase
 import com.example.eventplanner.viewModel.parcels.Category
 
 class AddCategoryViewModel : ViewModel(){
-    private var db : CategoryDatabase = CategoryDatabase
+    private var auth = AuthenticationModal
     lateinit var name: String
     lateinit var description: String
     lateinit var id : String
     private var _categoryList = MutableLiveData<Category>()
+
+    fun getUser() : String{
+        return auth.getUser().value!!.uid
+    }
 
     val category : LiveData<Category>
     get() = _categoryList

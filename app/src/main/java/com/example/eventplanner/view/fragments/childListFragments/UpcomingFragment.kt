@@ -24,6 +24,12 @@ class UpcomingFragment : Fragment(R.layout.fragment_upcoming) {
         viewModel = ViewModelProvider(this)[ListViewModel::class.java]
         recyclerView = view.findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(context)
+
+        viewModel.eventList.observe(viewLifecycleOwner, Observer {
+            viewModel.initLists(it)
+            viewModel.initCategory()
+        })
+
         viewModel.upcomingEvents.observe(viewLifecycleOwner, Observer {
             adapter = ListRowViewAdapter(it, parentFragment as ListFragment)
             recyclerView.adapter = adapter

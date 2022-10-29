@@ -7,8 +7,8 @@ import java.util.*
 import kotlin.collections.HashMap
 
 @Parcelize
-class Event(var name : String, var date : Date, var category : String, var description: String, var location : String, var done : Boolean, var imageLoc : String = "", var id : String = "") : Parcelable{
-    constructor() : this("", Date(), "", "", "", false) {
+class Event(var name : String, var date : Date, var category : String, var description: String, var location : String, var done : Boolean, var imageLoc : String = "", var id : String = "", var userId : String) : Parcelable{
+    constructor() : this("", Date(), "", "", "", false, userId = "") {
 
     }
 }

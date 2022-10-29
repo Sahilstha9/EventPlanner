@@ -4,8 +4,8 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-class Category(var name : String, var description: String, var id : String = "" ) : Parcelable{
-    constructor(): this ("", ""){
+class Category(var name : String, var description: String, var id : String = "", var userId : String ) : Parcelable{
+    constructor(): this ("", "", userId = ""){
 
     }
 }

@@ -5,10 +5,12 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.example.eventplanner.R
 import com.example.eventplanner.view.MyXAxisFormatter
 import com.example.eventplanner.viewModel.InsightsViewModel
 import com.example.eventplanner.viewModel.classes.MyYAxisValueFormatter
+import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.AxisBase
@@ -19,16 +21,20 @@ import com.github.mikephil.charting.formatter.ValueFormatter
 
 class InsightsFragment : Fragment(R.layout.fragment_insights) {
 
-    private lateinit var lineChart : LineChart
     private lateinit var barChart: BarChart
     private lateinit var dataVal: MutableList<BarEntry>
-    private val viewModel = InsightsViewModel()
+    private lateinit var viewModel : InsightsViewModel
     private val xValueFormatter = MyXAxisFormatter()
     private val yValueFormatter = MyYAxisValueFormatter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel = ViewModelProvider(this)[InsightsViewModel::class.java]
+
+        viewModel.eventList.observe(viewLifecycleOwner, Observer {
+            viewModel.initLists(it)
+        })
         barChart = view.findViewById(R.id.barChart)
         xValueFormatter.setArray(arrayListOf("completed", "upcoming", "missed"))
 
@@ -43,6 +49,11 @@ class InsightsFragment : Fragment(R.layout.fragment_insights) {
         initBarchartAxis(barChart.axisRight, yValueFormatter)
 
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        barChart.animateY(3000, Easing.EaseInBack)
     }
 
     private fun listObserver(list : MutableLiveData<Int>, num : Int){

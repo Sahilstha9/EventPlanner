@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.fragment.app.Fragment
 import android.view.View
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -26,6 +27,11 @@ class DoneFragment : Fragment(R.layout.fragment_done) {
         recyclerView = view.findViewById(R.id.recyclerView)
         recyclerView.layoutManager = GridLayoutManager(requireActivity().applicationContext, 2)
         adapter = GridViewAdapter(parentFragment as ListFragment)
+
+        viewModel.eventList.observe(viewLifecycleOwner, Observer {
+            viewModel.initLists(it)
+            viewModel.initCategory()
+        })
 
         viewModel.completedEvents.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             adapter.setDataList(it)

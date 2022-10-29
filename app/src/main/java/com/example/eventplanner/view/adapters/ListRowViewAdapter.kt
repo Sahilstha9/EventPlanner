@@ -47,7 +47,8 @@ class ListRowViewAdapter(private val data: List<Event>, var fragment: ListFragme
 
         fun bind(item: Event) {
             name.text = item.name
-            date.text = item.date.toString()
+            var d = item.date.toString()
+            date.text = "${d.slice(0..15)} ${item.date.year}"
             isDone= item.done
             imageDB.getImage(image, item.id)
             v.setOnClickListener {

@@ -3,6 +3,7 @@ package com.example.eventplanner.viewModel
 import android.widget.TextView
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.eventplanner.modal.AuthenticationModal
 import com.example.eventplanner.modal.CategoryDatabase
 import com.example.eventplanner.viewModel.parcels.Category
 import com.google.firebase.database.DataSnapshot
@@ -21,7 +22,12 @@ class AddEventViewModel : ViewModel(){
     var done: Boolean = false
     lateinit var id: String
     private var db = CategoryDatabase
+    private var auth = AuthenticationModal
     var categoryList : MutableLiveData<MutableList<Category>> = MutableLiveData<MutableList<Category>>()
+
+    fun getUser() : String{
+        return auth.getUser().value!!.uid
+    }
 
     init {
         listenToCategory()

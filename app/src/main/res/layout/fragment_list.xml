@@ -6,38 +6,73 @@
     android:layout_height="match_parent"
     tools:context=".view.fragments.ListFragment">
 
-    <Button
-        android:id="@+id/done"
-        android:layout_width="115dp"
+
+    <com.google.android.material.tabs.TabLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:text="@string/done"
-        android:backgroundTint="@color/done"
+        android:id="@+id/tabLayout"
+        app:tabIndicatorColor="@color/upcoming"
+        app:tabSelectedTextColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/missed"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/missed"
-        android:layout_width="115dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:text="@string/missed"
-        android:backgroundTint="@color/missed"
-        app:layout_constraintEnd_toStartOf="@+id/done"
-        app:layout_constraintStart_toEndOf="@+id/upcoming"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/upcoming"
-        android:layout_width="115dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="4dp"
-        android:text="@string/upcoming"
-        android:backgroundTint="@color/upcoming"
-        app:layout_constraintEnd_toStartOf="@+id/missed"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        >
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/upcoming"
+            android:id="@+id/upcoming"
+
+            />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/missed"
+            android:id="@+id/missed"
+            />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/done"
+            android:id="@+id/done"
+            />
+
+    </com.google.android.material.tabs.TabLayout>
+<!--    <Button-->
+<!--        android:id="@+id/done"-->
+<!--        android:layout_width="115dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="4dp"-->
+<!--        android:text="@string/done"-->
+<!--        android:backgroundTint="@color/done"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/missed"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--    <Button-->
+<!--        android:id="@+id/missed"-->
+<!--        android:layout_width="115dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="4dp"-->
+<!--        android:text="@string/missed"-->
+<!--        android:backgroundTint="@color/missed"-->
+<!--        app:layout_constraintEnd_toStartOf="@+id/done"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/upcoming"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--    <Button-->
+<!--        android:id="@+id/upcoming"-->
+<!--        android:layout_width="115dp"-->
+<!--        android:layout_height="48dp"-->
+<!--        android:layout_marginTop="4dp"-->
+<!--        android:text="@string/upcoming"-->
+<!--        android:backgroundTint="@color/upcoming"-->
+<!--        app:layout_constraintEnd_toStartOf="@+id/missed"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentHolder"
@@ -46,7 +81,9 @@
         android:layout_height="672dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/missed"
+        app:layout_constraintTop_toBottomOf="@+id/tabLayout"
+        app:layout_constraintVertical_bias="0.19"
         tools:layout="@layout/fragment_upcoming" />
 </androidx.constraintlayout.widget.ConstraintLayout>

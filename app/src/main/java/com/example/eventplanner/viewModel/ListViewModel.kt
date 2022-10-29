@@ -5,8 +5,11 @@ import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.eventplanner.modal.AuthenticationModal
+import com.example.eventplanner.modal.CategoryDatabase
 import com.example.eventplanner.modal.EventDatabase
 import com.example.eventplanner.modal.ImageModal
+import com.example.eventplanner.viewModel.parcels.Category
 import com.example.eventplanner.viewModel.parcels.Event
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -18,41 +21,16 @@ class ListViewModel : ViewModel() {
 
     private val TAG: String = "ListViewModal"
     private var db = EventDatabase
-    private val imageDB = ImageModal
-    var eventList : MutableLiveData<MutableList<Event>> = MutableLiveData<MutableList<Event>>()
+    private var categoryDB = CategoryDatabase
+    var eventList : MutableLiveData<MutableList<Event>> = db.mEventList
     var upcomingEvents : MutableLiveData<MutableList<Event>> = MutableLiveData<MutableList<Event>>()
     var missedEvents : MutableLiveData<MutableList<Event>> = MutableLiveData<MutableList<Event>>()
     var completedEvents : MutableLiveData<MutableList<Event>> = MutableLiveData<MutableList<Event>>()
 
-    init {
-        listenToEvent()
-    }
-
-    private fun listenToEvent() {
-        viewModelScope.launch  {
-            db.getDatabaseRef().addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(events: DataSnapshot) {
-                    val data : MutableList<Event> = mutableListOf()
-                    if(events.exists()){
-                        for (e in events.children){
-                            val event = e.getValue(Event::class.java)
-                            data.add(event!!)
-                        }
-                        initLists(data)
-                    }
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
-                }
-
-            })
-        }
-    }
 
     fun initLists(list: MutableList<Event>){
         viewModelScope.launch {
-            eventList.value = list
+
             upcomingEvents.value = mutableListOf()
             missedEvents.value = mutableListOf()
             completedEvents.value = mutableListOf()
@@ -63,7 +41,6 @@ class ListViewModel : ViewModel() {
                     completedEvents.value!!.add(i)}
                 else{
                     if(i.date > currentDate){
-                        Log.i(TAG, "true")
                         upcomingEvents.value!!.add(i)
                     }
                     else {
@@ -71,11 +48,24 @@ class ListViewModel : ViewModel() {
                     }
                 }
             }
+            Log.i(TAG, completedEvents.value.toString())
             upcomingEvents.postValue(upcomingEvents.value)
             missedEvents.postValue(missedEvents.value)
             completedEvents.postValue(completedEvents.value)
         }
 
+    }
+
+    fun initCategory(){
+        viewModelScope.launch {
+            for (i in eventList.value!!) {
+                for (j in categoryDB.mCategoryList.value!!) {
+                    if (i.category == j.id) {
+                        i.category = j.name
+                    }
+                }
+            }
+        }
     }
 
 

@@ -6,12 +6,16 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.eventplanner.R
+import com.example.eventplanner.modal.AuthenticationModal
 import com.example.eventplanner.view.activities.AddCategoryActivity
 import com.example.eventplanner.view.adapters.CategoryListAdapter
 import com.example.eventplanner.view.fragments.bottomSheet.CategoryBottomSheetFragment
@@ -24,6 +28,7 @@ class CategoryListFragment : Fragment(R.layout.fragment_category_list) {
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: CategoryListAdapter
     private lateinit var viewModel : CategoryViewModel
+
     private val getCategory = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()) {
         if(it.resultCode == Activity.RESULT_OK){
@@ -45,9 +50,28 @@ class CategoryListFragment : Fragment(R.layout.fragment_category_list) {
         adapter = CategoryListAdapter(this)
         recyclerView.adapter = adapter
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.cList.observe(viewLifecycleOwner, Observer {
+            viewModel.getEvents()
+            adapter.notifyDataSetChanged()
+        })
         viewModel.categoryList.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             adapter.setDataList(it)
             adapter.notifyDataSetChanged()
+        })
+    }
+
+    override fun onStop() {
+        super.onStop()
+        AuthenticationModal.getUser().observe(this, Observer {
+            if (it == null){
+                viewModel.cList.value = mutableListOf()
+                viewModel.categoryList.value = mutableListOf()
+                adapter.notifyDataSetChanged()
+            }
         })
     }
 

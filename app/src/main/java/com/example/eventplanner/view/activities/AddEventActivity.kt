@@ -98,7 +98,7 @@ class AddEventActivity : AppCompatActivity() {
             }
             if (viewModel.inputValidation(name, date, location, time)) {
                 isDone = done.isChecked
-                val splitDate = date.text.toString().split("-")
+                val splitDate = date.text.toString().split("/", "-")
                 val splitTime = time.text.toString().split(":")
                 val event = Event(
                     name.text.toString(),
@@ -113,7 +113,8 @@ class AddEventActivity : AppCompatActivity() {
                     description.text.toString(),
                     location.text.toString(),
                     isDone,
-                    id = data?.id ?: ""
+                    id = data?.id ?: "",
+                    userId = viewModel.getUser()
                 )
                 intent.putExtra("event", event)
                 intent.putExtra("image", image)

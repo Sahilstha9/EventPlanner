@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.MenuItem
 import android.view.View
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.eventplanner.R
@@ -25,6 +26,7 @@ class MissedFragment : Fragment(R.layout.fragment_missed) {
         recyclerView.layoutManager = LinearLayoutManager(context)
         adapter = CardViewAdapter(listOf(), parentFragment as ListFragment)
         recyclerView.adapter = adapter
+
         viewModel.missedEvents.observe(requireActivity(), androidx.lifecycle.Observer {
             adapter.setData(it)
             adapter.notifyDataSetChanged()

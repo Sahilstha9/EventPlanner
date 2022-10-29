@@ -50,7 +50,9 @@ class CardViewAdapter(private var data: List<Event>, var fragment: ListFragment)
 
         fun bind(item: Event) {
             name.text = item.name
-            date.text = item.date.toString()
+            var d = item.date.toString()
+            date.text = "${d.slice(0..15)} ${item.date.year}"
+            description.text = item.description
             imageDB.getImage(image, item.id)
             isDone= item.done
             description.text = item.description

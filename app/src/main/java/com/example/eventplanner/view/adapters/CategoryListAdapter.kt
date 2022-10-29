@@ -5,8 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnCreateContextMenuListener
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.eventplanner.R
@@ -41,6 +44,7 @@ class CategoryListAdapter(private val fragment : CategoryListFragment)  : Recycl
         private val name: TextView = v.findViewById(R.id.name)
         private var recyclerView = v.findViewById<RecyclerView>(R.id.recyclerView)
         private var menu : ImageView = v.findViewById(R.id.menu)
+        private val textFadeIn : Animation by lazy{ AnimationUtils.loadAnimation(fragment.context, R.anim.text_fade_in)}
 
 
         init {
@@ -51,7 +55,7 @@ class CategoryListAdapter(private val fragment : CategoryListFragment)  : Recycl
             recyclerView.layoutManager = LinearLayoutManager(fragment.context)
             v.setBackgroundColor(fragment.resources.getColor(androidx.appcompat.R.color.material_grey_100))
             val c = mutableListOf<Event>()
-            for (i in item.events!!){
+            for (i in item.events){
                 c.add(i)
             }
             val adapter = EventInsideCategoryAdapter(c, fragment)
@@ -63,6 +67,7 @@ class CategoryListAdapter(private val fragment : CategoryListFragment)  : Recycl
                 }
                 else{
                     params.height = ViewGroup.LayoutParams.WRAP_CONTENT
+                    recyclerView.startAnimation(textFadeIn)
                 }
                 recyclerView.layoutParams = params
             }
@@ -72,6 +77,7 @@ class CategoryListAdapter(private val fragment : CategoryListFragment)  : Recycl
                 true
             }
         }
+
 
         override fun onCreateContextMenu(
             menu: ContextMenu?,

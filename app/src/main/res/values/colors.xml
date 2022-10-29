@@ -7,8 +7,13 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="done">#309c34</color>
-    <color name="missed">#eb232d</color>
-    <color name="upcoming">#2a53f7</color>
+    <color name="done">#42ED48</color>
+<!--    #309c34-->
+    <color name="missed">#F36262</color>
+<!--    #eb232d-->
+    <color name="upcoming">#2F9EFD</color>
+<!--    #3058F6-->
+    <color name="yellow">#FCE700</color>
+    <color name="blue">#1B49F1</color>
 
 </resources>

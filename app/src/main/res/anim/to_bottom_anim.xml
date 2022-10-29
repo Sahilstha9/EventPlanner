@@ -4,7 +4,7 @@
     <translate
         android:fromYDelta="0%"
         android:toYDelta="100%"
-        android:duration= "300"/>
+        android:duration= "700"/>
 
     <scale
         android:pivotX="50%"
@@ -16,6 +16,7 @@
 
     <alpha
         android:fromAlpha="1"
-        android:duration = "150"
+        android:duration = "700"
         android:toAlpha="0"/>
+
 </set>
