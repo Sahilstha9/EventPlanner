@@ -2,10 +2,11 @@ package com.example.eventplanner.view.fragments
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.app.ActivityCompat.finishAffinity
+import androidx.fragment.app.Fragment
 import com.example.eventplanner.R
 import com.example.eventplanner.modal.AuthenticationModal
 import com.example.eventplanner.view.activities.AboutActivity
@@ -29,7 +30,6 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
             db.logOutUser()
             val intent = Intent(this.context, SignInActivity::class.java)
             startActivity(intent)
-            requireActivity().finish()
         }
     }
 }

@@ -17,7 +17,6 @@ import com.example.eventplanner.modal.EventDatabase
 import com.example.eventplanner.R
 import com.example.eventplanner.view.fragments.*
 import com.example.eventplanner.databinding.ActivityMainBinding
-import com.example.eventplanner.modal.AuthenticationModal
 import com.example.eventplanner.viewModel.parcels.Category
 import com.example.eventplanner.viewModel.parcels.Event
 
@@ -100,7 +99,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.insights -> replaceFragment(fm, insightsFragment)
                 R.id.calendar -> replaceFragment(fm, calendarFragment)
                 R.id.events -> replaceFragment(fm, listFragment)
-                R.id.add -> replaceFragment(fm, categoryFragment)
+                R.id.add -> replaceFragment(fm, CategoryListFragment())
 
                 else ->{
 

@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.eventplanner.R
+import com.example.eventplanner.view.fragments.ListFragment
 import com.example.eventplanner.viewModel.parcels.Event
 import com.google.android.material.chip.Chip
 import java.util.*
@@ -60,6 +61,10 @@ class CalendarAdapter(private var data: List<Event>, context: Context) : Recycle
             chip.invalidate()
             name.text = item.name
             date.text = item.date.date.toString()
+
+            v.setOnClickListener(){
+                ListFragment().showDialog(item)
+            }
         }
 
     }

@@ -1,6 +1,8 @@
-package com.example.eventplanner.viewModel.parcels
+package com.example.eventplanner.viewModel.classes
 
 import android.os.Parcelable
+import com.example.eventplanner.viewModel.parcels.Category
+import com.example.eventplanner.viewModel.parcels.Event
 import kotlinx.parcelize.Parcelize
 
 @Parcelize

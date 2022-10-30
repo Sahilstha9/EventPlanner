@@ -1,12 +1,11 @@
 package com.example.eventplanner.modal
 
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.widget.Toast
-import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.MutableLiveData
-import com.example.eventplanner.view.activities.SignInActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.userProfileChangeRequest
@@ -51,9 +50,9 @@ object AuthenticationModal {
     }
 
     fun logOutUser(){
-
         getDatabaseRef().signOut()
         currentUser.value = null
+        currentUser.postValue(null)
     }
 
     fun loginUser(email : String, pass : String, context: Context){

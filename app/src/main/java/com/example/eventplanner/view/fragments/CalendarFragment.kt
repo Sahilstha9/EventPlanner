@@ -62,15 +62,6 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
 
     }
 
-    override fun onStop() {
-        super.onStop()
-        AuthenticationModal.getUser().observe(this, Observer {
-            if (it == null){
-                viewModel.eventList.value = mutableListOf()
-            }
-        })
-    }
-
     override fun onResume() {
         super.onResume()
         calendarDecorator(viewModel.upcomingEvents, ContextCompat.getDrawable(requireContext(), R.color.upcoming))

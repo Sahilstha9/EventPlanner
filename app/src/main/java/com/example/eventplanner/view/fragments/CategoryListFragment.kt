@@ -50,29 +50,26 @@ class CategoryListFragment : Fragment(R.layout.fragment_category_list) {
         adapter = CategoryListAdapter(this)
         recyclerView.adapter = adapter
 
-    }
+//        viewModel.cList.observe(viewLifecycleOwner, Observer {
+//        })
 
-    override fun onResume() {
-        super.onResume()
-        viewModel.cList.observe(viewLifecycleOwner, Observer {
+        viewModel.evenList.observe(viewLifecycleOwner, Observer {
             viewModel.getEvents()
-            adapter.notifyDataSetChanged()
         })
         viewModel.categoryList.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             adapter.setDataList(it)
             adapter.notifyDataSetChanged()
         })
+
     }
 
-    override fun onStop() {
-        super.onStop()
-        AuthenticationModal.getUser().observe(this, Observer {
-            if (it == null){
-                viewModel.cList.value = mutableListOf()
-                viewModel.categoryList.value = mutableListOf()
-                adapter.notifyDataSetChanged()
-            }
+    override fun onResume() {
+        super.onResume()
+        viewModel.categoryList.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            adapter.setDataList(it)
+            adapter.notifyDataSetChanged()
         })
+
     }
 
     fun showDialog(item : Category) {

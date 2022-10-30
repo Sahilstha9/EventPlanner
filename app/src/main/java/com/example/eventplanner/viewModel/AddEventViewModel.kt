@@ -18,39 +18,14 @@ class AddEventViewModel : ViewModel(){
     lateinit var date: Date
     lateinit var category: String
     lateinit var description: String
-    lateinit var location: String
     var done: Boolean = false
     lateinit var id: String
     private var db = CategoryDatabase
     private var auth = AuthenticationModal
-    var categoryList : MutableLiveData<MutableList<Category>> = MutableLiveData<MutableList<Category>>()
+    var categoryList : MutableLiveData<MutableList<Category>> = db.mCategoryList
 
     fun getUser() : String{
         return auth.getUser().value!!.uid
-    }
-
-    init {
-        listenToCategory()
-    }
-
-    private fun listenToCategory() {
-        db.getDatabaseRef().addValueEventListener(object : ValueEventListener{
-            override fun onDataChange(category: DataSnapshot) {
-                val data : MutableList<Category> = mutableListOf()
-                if(category.exists()){
-                    for (e in category.children){
-                        val category = e.getValue(Category::class.java)
-                        data.add(category!!)
-                    }
-                    categoryList.value = data
-                }
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
-
-        })
     }
 
     fun inputValidation(name : TextView, date: TextView, location : TextView, time: TextView) : Boolean{
@@ -86,7 +61,7 @@ class AddEventViewModel : ViewModel(){
     }
 
     private fun validDate(dateStr: String?): Boolean {
-        val re = Regex("(([0-2][0-9])|([3][0-1]))((\\/)|-)(([0]?[1-9])|([1][0-2]))((\\/)|-)20(([0-1]\\d)|(2[0-9]))")
+        val re = Regex("(([1-9])|([1-2][0-9])|([3][0-1]))((\\/)|-)(([0]?[1-9])|([1][0-2]))((\\/)|-)20(([0-1]\\d)|(2[0-9]))")
         if(dateStr!!.matches(re)) return true
         return false
     }

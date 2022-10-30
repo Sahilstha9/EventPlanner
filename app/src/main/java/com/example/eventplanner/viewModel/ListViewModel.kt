@@ -34,17 +34,19 @@ class ListViewModel : ViewModel() {
             upcomingEvents.value = mutableListOf()
             missedEvents.value = mutableListOf()
             completedEvents.value = mutableListOf()
+
             val currentDate = Date()
             currentDate.year = 1900 + currentDate.year
             for(i in list){
+                val event = Event(i.name, i.date,  i.category, i.description,  i.location, i.done, i.imageLoc, i.id, userId = i.userId)
                 if(i.done) {
-                    completedEvents.value!!.add(i)}
+                    completedEvents.value!!.add(event)}
                 else{
                     if(i.date > currentDate){
-                        upcomingEvents.value!!.add(i)
+                        upcomingEvents.value!!.add(event)
                     }
                     else {
-                        missedEvents.value!!.add(i)
+                        missedEvents.value!!.add(event)
                     }
                 }
             }
@@ -56,13 +58,20 @@ class ListViewModel : ViewModel() {
 
     }
 
+
     fun initCategory(){
         viewModelScope.launch {
-            for (i in eventList.value!!) {
-                for (j in categoryDB.mCategoryList.value!!) {
-                    if (i.category == j.id) {
-                        i.category = j.name
-                    }
+            listCatInit(upcomingEvents)
+            listCatInit(missedEvents)
+            listCatInit(completedEvents)
+        }
+    }
+
+    fun listCatInit(list: MutableLiveData<MutableList<Event>>){
+        for (i in list.value ?: mutableListOf()) {
+            for (j in categoryDB.mCategoryList.value ?: mutableListOf()) {
+                if (i.category == j.id) {
+                    i.category = j.name
                 }
             }
         }

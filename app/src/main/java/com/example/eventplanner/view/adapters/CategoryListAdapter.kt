@@ -1,5 +1,6 @@
 package com.example.eventplanner.view.adapters
 
+import android.util.Log
 import android.view.ContextMenu
 import android.view.LayoutInflater
 import android.view.View
@@ -9,12 +10,11 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.eventplanner.R
 import com.example.eventplanner.view.fragments.CategoryListFragment
-import com.example.eventplanner.viewModel.parcels.CategoriesWithEvent
+import com.example.eventplanner.viewModel.classes.CategoriesWithEvent
 import com.example.eventplanner.viewModel.parcels.Category
 import com.example.eventplanner.viewModel.parcels.Event
 
@@ -50,12 +50,14 @@ class CategoryListAdapter(private val fragment : CategoryListFragment)  : Recycl
         init {
             v.setOnCreateContextMenuListener(this)
         }
+
         fun bind(item: CategoriesWithEvent) {
             name.text = item.category!!.name
             recyclerView.layoutManager = LinearLayoutManager(fragment.context)
             v.setBackgroundColor(fragment.resources.getColor(androidx.appcompat.R.color.material_grey_100))
             val c = mutableListOf<Event>()
             for (i in item.events){
+                Log.i(TAG, i.name)
                 c.add(i)
             }
             val adapter = EventInsideCategoryAdapter(c, fragment)
@@ -93,5 +95,9 @@ class CategoryListAdapter(private val fragment : CategoryListFragment)  : Recycl
 
     fun getCategory(position: Int): Category {
         return dataList[position].category!!
+    }
+
+    fun refreshView(){
+
     }
 }

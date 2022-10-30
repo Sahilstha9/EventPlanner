@@ -88,14 +88,14 @@ class ListFragment : Fragment(R.layout.fragment_list) {
 
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.i(TAG, "DESTROYED")
+    }
+
     override fun onStop() {
         super.onStop()
-        AuthenticationModal.getUser().observe(this, Observer {
-            if (it == null){
-                viewModel.eventList.value = mutableListOf()
-
-            }
-        })
+        Log.i(TAG, "STOPPED")
     }
 
     fun replaceFragment(fm : FragmentManager, fragment : Fragment){
