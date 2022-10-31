@@ -4,17 +4,16 @@ import android.util.Log
 import android.view.View
 import androidx.lifecycle.MutableLiveData
 import com.example.eventplanner.viewModel.parcels.Category
-import com.example.eventplanner.viewModel.parcels.Event
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.database.*
-import java.util.Observable
+import java.util.*
 
 object CategoryDatabase : Observable(){
     const val TAG = "CategoryDatabase"
     private var auth = AuthenticationModal
     var mCategoryList : MutableLiveData<MutableList<Category>> = MutableLiveData()
 
-    fun getDatabaseRef() : DatabaseReference {
+    private fun getDatabaseRef() : DatabaseReference {
         return FirebaseDatabase.getInstance().getReference("categories")
     }
 

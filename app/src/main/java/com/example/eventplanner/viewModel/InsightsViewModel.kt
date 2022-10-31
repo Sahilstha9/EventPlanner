@@ -6,13 +6,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.eventplanner.modal.CategoryDatabase
 import com.example.eventplanner.modal.EventDatabase
-import com.example.eventplanner.viewModel.parcels.Category
 import com.example.eventplanner.viewModel.parcels.Event
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
 import kotlinx.coroutines.launch
-import java.util.Date
+import java.util.*
 
 class InsightsViewModel : ViewModel() {
     private val TAG = "InsightsViewModel"
@@ -21,14 +17,14 @@ class InsightsViewModel : ViewModel() {
     val catList = categoryDB.mCategoryList
     val eventList = eventDB.mEventList
     val eventWithCategoryNameList = mutableListOf<Event>()
-    val upcomingCount = MutableLiveData<Int>(0)
-    val missedCount = MutableLiveData<Int>(0)
-    val completedCount = MutableLiveData<Int>(0)
+    val upcomingCount = MutableLiveData(0)
+    val missedCount = MutableLiveData(0)
+    val completedCount = MutableLiveData(0)
     var categoryList : MutableList<String> = mutableListOf()
 
     fun initCategoryList(){
         categoryList = mutableListOf()
-        for (i in catList.value!!){
+        for (i in catList.value ?: mutableListOf()){
             for (j in eventWithCategoryNameList){
                 if(j.category == i.id){
                     j.category = i.name
@@ -50,6 +46,7 @@ class InsightsViewModel : ViewModel() {
         viewModelScope.launch {
 
             val currentDate = Date()
+            @Suppress("DEPRECATION")
             currentDate.year = 1900 + currentDate.year
             for(i in list){
                 if(i.done) {

@@ -5,11 +5,9 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.eventplanner.R
-import com.example.eventplanner.modal.AuthenticationModal
 import com.example.eventplanner.view.MyXAxisFormatter
 import com.example.eventplanner.viewModel.InsightsViewModel
 import com.example.eventplanner.viewModel.classes.MyYAxisValueFormatter
@@ -40,15 +38,15 @@ class InsightsFragment : Fragment(R.layout.fragment_scrolling) {
 
         barChart = view.findViewById(R.id.barChart)
 
-        viewModel.catList.observe(viewLifecycleOwner, Observer {
+        viewModel.catList.observe(viewLifecycleOwner) {
             viewModel.initCategoryList()
             showPieChart()
-        })
+        }
 
-        viewModel.eventList.observe(viewLifecycleOwner, Observer {
+        viewModel.eventList.observe(viewLifecycleOwner) {
             viewModel.initLists(it)
             showBarGraph()
-        })
+        }
     }
 
     private fun showBarGraph(){
@@ -109,12 +107,13 @@ class InsightsFragment : Fragment(R.layout.fragment_scrolling) {
         super.onResume()
 
         showBarGraph()
-        viewModel.catList.observe(viewLifecycleOwner, Observer {
+        viewModel.catList.observe(viewLifecycleOwner) {
             viewModel.initCategoryList()
             showPieChart()
-        })
+        }
+
         barChart.animateY(3000, Easing.EaseInBack)
-        pieChart.animateX(5000, Easing.EaseInBack)
+        pieChart.animateX(4000, Easing.EaseInBack)
     }
 
 

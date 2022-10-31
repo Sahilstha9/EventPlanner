@@ -1,13 +1,9 @@
 package com.example.eventplanner.modal
 
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
 import android.net.Uri
 import android.util.Log
 import android.view.View
 import androidx.lifecycle.MutableLiveData
-import com.example.eventplanner.viewModel.parcels.Category
 import com.example.eventplanner.viewModel.parcels.Event
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.database.*
@@ -19,7 +15,7 @@ object EventDatabase : Observable(){
     private var auth = AuthenticationModal
     var mEventList : MutableLiveData<MutableList<Event>> = MutableLiveData()
 
-    fun getDatabaseRef() : DatabaseReference {
+    private fun getDatabaseRef() : DatabaseReference {
         return FirebaseDatabase.getInstance().getReference("Events")
     }
 
