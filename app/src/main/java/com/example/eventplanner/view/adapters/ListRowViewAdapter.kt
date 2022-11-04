@@ -1,7 +1,6 @@
 package com.example.eventplanner.view.adapters
 
 
-import android.content.res.ColorStateList
 import android.view.ContextMenu
 import android.view.LayoutInflater
 import android.view.View
@@ -10,7 +9,7 @@ import android.view.ViewGroup
 import android.widget.*
 
 import androidx.recyclerview.widget.RecyclerView
-import com.example.eventplanner.modal.ImageModal
+import com.example.eventplanner.repository.ImageRepository
 import com.example.eventplanner.R
 import com.example.eventplanner.view.fragments.ListFragment
 
@@ -19,7 +18,7 @@ import com.example.eventplanner.viewModel.parcels.Event
 class ListRowViewAdapter(private val data: List<Event>, var fragment: ListFragment) : RecyclerView.Adapter<ListRowViewAdapter.ViewHolder>() {
 
     private val TAG: String = "UpcomingAdapter"
-    private val imageDB = ImageModal
+    private val imageDB = ImageRepository
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListRowViewAdapter.ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)

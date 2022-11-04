@@ -1,23 +1,21 @@
 package com.example.eventplanner.view.adapters
 
-import android.content.res.ColorStateList
 import android.view.ContextMenu
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.View.OnCreateContextMenuListener
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.eventplanner.modal.ImageModal
+import com.example.eventplanner.repository.ImageRepository
 import com.example.eventplanner.R
 import com.example.eventplanner.view.fragments.ListFragment
 import com.example.eventplanner.viewModel.parcels.Event
 
 class CardViewAdapter(private var data: List<Event>, var fragment: ListFragment) : RecyclerView.Adapter<CardViewAdapter.ViewHolder>()  {
 
-    private val imageDB = ImageModal
+    private val imageDB = ImageRepository
 
     fun setData(v : List<Event>){
         data = v

@@ -1,4 +1,4 @@
-package com.example.eventplanner.viewModel.classes
+package com.example.eventplanner.viewModel.parcels
 
 import android.os.Parcelable
 import com.example.eventplanner.viewModel.parcels.Category

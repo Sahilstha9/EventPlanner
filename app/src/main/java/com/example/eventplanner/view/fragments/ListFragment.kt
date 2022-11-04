@@ -6,12 +6,12 @@ import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.View
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.eventplanner.R
-import com.example.eventplanner.modal.AuthenticationModal
 import com.example.eventplanner.view.activities.AddEventActivity
 import com.example.eventplanner.view.fragments.bottomSheet.BottomSheetFragment
 import com.example.eventplanner.view.fragments.childListFragments.DoneFragment
@@ -26,17 +26,7 @@ class ListFragment : Fragment(R.layout.fragment_list) {
 
     private val TAG = "ListFragment"
     internal lateinit var viewModel : ListViewModel
-    private val getEvent = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()) {
-        if(it.resultCode == Activity.RESULT_OK){
-            val intent = it.data
-            val parcel : Event = intent?.getParcelableExtra("event")!!
-            Log.i(TAG, parcel.name)
-
-            viewModel.updateEvent(parcel, this.requireView())
-        }
-    }
-    var eventActivityIntent : Intent? = null
+    private lateinit var getEvent : ActivityResultLauncher<Intent>
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -86,6 +76,15 @@ class ListFragment : Fragment(R.layout.fragment_list) {
             }
         })
 
+        getEvent = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == Activity.RESULT_OK) {
+                val intent = it.data
+                val parcel: Event = intent?.getParcelableExtra("event")!!
+
+                viewModel.updateEvent(parcel, this.requireView())
+            }
+        }
     }
 
     override fun onDestroy() {
@@ -107,11 +106,17 @@ class ListFragment : Fragment(R.layout.fragment_list) {
         }
     }
 
+    /**
+     * displays bottom sheet fragment and also fills the details in it with the values passed
+     */
     fun showDialog(item : Event) {
         val bottomSheet = BottomSheetFragment(item)
         bottomSheet.show(childFragmentManager, "Long")
     }
 
+    /**
+     * displays a dialog box warning the user and calls delete function if the user is sure to delete it
+     */
     fun deleteEvent(event: Event) {
         MaterialAlertDialogBuilder(requireContext())
             .setTitle("Warning")
@@ -124,14 +129,20 @@ class ListFragment : Fragment(R.layout.fragment_list) {
             }.show()
     }
 
+    /**
+     * marks the event as done or not done
+     */
     fun alternateDone(event: Event){
         event.done = !event.done
         viewModel.updateEvent(event, requireView())
     }
 
+    /**
+     * lauches a new activity for result
+     */
     fun editEvent(event: Event) {
-        eventActivityIntent = Intent(context, AddEventActivity::class.java)
-        eventActivityIntent!!.putExtra("event", event)
+        val eventActivityIntent = Intent(context, AddEventActivity::class.java)
+        eventActivityIntent.putExtra("event", event)
         getEvent.launch(eventActivityIntent)
     }
 

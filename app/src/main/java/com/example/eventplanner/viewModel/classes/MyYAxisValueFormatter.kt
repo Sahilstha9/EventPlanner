@@ -4,6 +4,9 @@ import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.ValueFormatter
 
+/**
+ * formats y axis value in the charts
+ */
 class MyYAxisValueFormatter : ValueFormatter() {
 
     // override this for custom formatting of XAxis or YAxis labels

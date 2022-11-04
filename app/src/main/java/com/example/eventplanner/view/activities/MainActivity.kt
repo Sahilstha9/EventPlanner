@@ -12,8 +12,8 @@ import android.view.animation.AnimationUtils
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import com.example.eventplanner.modal.CategoryDatabase
-import com.example.eventplanner.modal.EventDatabase
+import com.example.eventplanner.repository.CategoryRepository
+import com.example.eventplanner.repository.EventRepository
 import com.example.eventplanner.R
 import com.example.eventplanner.view.fragments.*
 import com.example.eventplanner.databinding.ActivityMainBinding
@@ -35,8 +35,8 @@ class MainActivity : AppCompatActivity() {
     private val categoryFragment = CategoryListFragment()
     private val profileFragment = ProfileFragment()
     private var clicked = false
-    private var dbEvent = EventDatabase
-    private var dbCategory = CategoryDatabase
+    private var dbEvent = EventRepository
+    private var dbCategory = CategoryRepository
 
     private val getEvent = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()) {
@@ -123,6 +123,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * sets animation for fab toggle
+     */
     private fun setAnimation(clicked : Boolean) {
         if(!clicked){
             binding.addEvent.startAnimation(fromBottom)
@@ -140,6 +143,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * toggles visibility of options of FAB
+     */
     private fun setVisibility(clicked : Boolean) {
         if(!clicked){
             binding.addEvent.visibility = View.VISIBLE
@@ -155,6 +161,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * replaces the current fragment being displayed to the desired fragment
+     */
     private fun replaceFragment(fm : FragmentManager, fragment : Fragment){
         Log.i(TAG, "Replace Fragment called")
 

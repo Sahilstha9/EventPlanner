@@ -1,17 +1,21 @@
 package com.example.eventplanner.viewModel
 
 import android.content.Context
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.eventplanner.modal.AuthenticationModal
+import com.example.eventplanner.repository.AuthenticationRepository
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseUser
 
 class SignInViewModel : ViewModel() {
 
-    private val db = AuthenticationModal
-    val user : MutableLiveData<FirebaseUser> = db.getUser()
+    private val db = AuthenticationRepository
+    val user : LiveData<FirebaseUser> = db.getUser()
 
+    /**
+     * logs in user and also checks if the value entered in the field is valid
+     */
     fun loginUser(emailText : TextInputEditText, passText : TextInputEditText, context: Context){
         var email = ""
         var pass = ""
@@ -38,6 +42,9 @@ class SignInViewModel : ViewModel() {
         }
     }
 
+    /**
+     * checks if the email entered is of valid format
+     */
     private fun validEmail(email : String): Boolean {
         val regex : Regex = Regex("^[a-zA-Z0-9.!#\$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*\$")
         if(!email.matches(regex)){

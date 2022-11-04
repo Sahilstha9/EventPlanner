@@ -1,23 +1,28 @@
-package com.example.eventplanner.modal
+package com.example.eventplanner.repository
 
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.util.Log
 import android.widget.ImageView
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import java.io.File
 import java.util.*
 import java.util.concurrent.Executors
 
-object ImageModal : Observable() {
+/**
+ * repository used for image
+ */
+object ImageRepository : Observable() {
     const val TAG = "ImageModal"
 
     private fun getDatabaseRef() : StorageReference {
         return FirebaseStorage.getInstance().reference
     }
 
+    /**
+     * uploads image received from parameter in the database as imageName (from parameter)
+     */
     fun uploadImage(image : Uri?, imageName: String){
         if(image != null) {
             getDatabaseRef().child("images/$imageName").putFile(image).addOnSuccessListener {
@@ -26,7 +31,9 @@ object ImageModal : Observable() {
         }
     }
 
-
+    /**
+     * retrieves image from the database
+     */
     fun getImage(v : ImageView, imageName: String){
         val BACKGROUND = Executors.newFixedThreadPool(2)
         BACKGROUND.submit{
@@ -38,6 +45,9 @@ object ImageModal : Observable() {
         }
     }
 
+    /**
+     * deletes image from the database
+     */
     fun deleteImage(imageName: String){
         getDatabaseRef().child("images/$imageName").delete().addOnSuccessListener {
             Log.i(TAG, "Image deleted")

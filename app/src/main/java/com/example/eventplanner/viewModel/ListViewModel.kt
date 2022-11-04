@@ -2,32 +2,29 @@ package com.example.eventplanner.viewModel
 
 import android.util.Log
 import android.view.View
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.eventplanner.modal.AuthenticationModal
-import com.example.eventplanner.modal.CategoryDatabase
-import com.example.eventplanner.modal.EventDatabase
-import com.example.eventplanner.modal.ImageModal
-import com.example.eventplanner.viewModel.parcels.Category
+import com.example.eventplanner.repository.CategoryRepository
+import com.example.eventplanner.repository.EventRepository
 import com.example.eventplanner.viewModel.parcels.Event
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
 import kotlinx.coroutines.launch
 import java.util.*
 
 class ListViewModel : ViewModel() {
 
     private val TAG: String = "ListViewModal"
-    private var db = EventDatabase
-    private var categoryDB = CategoryDatabase
-    var eventList : MutableLiveData<MutableList<Event>> = db.mEventList
+    private var db = EventRepository
+    private var categoryDB = CategoryRepository
+    var eventList : LiveData<MutableList<Event>> = db.getEventList()
     var upcomingEvents : MutableLiveData<MutableList<Event>> = MutableLiveData<MutableList<Event>>()
     var missedEvents : MutableLiveData<MutableList<Event>> = MutableLiveData<MutableList<Event>>()
     var completedEvents : MutableLiveData<MutableList<Event>> = MutableLiveData<MutableList<Event>>()
 
-
+    /**
+     * updates value in the upcoming, missed, and completed event list in the live data
+     */
     fun initLists(list: MutableList<Event>){
         viewModelScope.launch {
 
@@ -67,9 +64,12 @@ class ListViewModel : ViewModel() {
         }
     }
 
-    fun listCatInit(list: MutableLiveData<MutableList<Event>>){
+    /**
+     * changes category of event record to display the name of category instead of object id
+     */
+    private fun listCatInit(list: MutableLiveData<MutableList<Event>>){
         for (i in list.value ?: mutableListOf()) {
-            for (j in categoryDB.mCategoryList.value ?: mutableListOf()) {
+            for (j in categoryDB.getCategoryList().value ?: mutableListOf()) {
                 if (i.category == j.id) {
                     i.category = j.name
                 }
@@ -77,13 +77,18 @@ class ListViewModel : ViewModel() {
         }
     }
 
-
+    /**
+     * calls delete event from the database to delete the event passed
+     */
     fun deleteEvent(event: Event, view: View){
         viewModelScope.launch {
             db.deleteEvent(event, view)
         }
     }
 
+    /**
+     * calls update event from the database to update the event passed
+     */
     fun updateEvent(event: Event, view: View){
         viewModelScope.launch {
             db.updateEvent(event, view)

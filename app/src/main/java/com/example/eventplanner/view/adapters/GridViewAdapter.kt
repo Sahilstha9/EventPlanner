@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.eventplanner.modal.ImageModal
+import com.example.eventplanner.repository.ImageRepository
 import com.example.eventplanner.R
 import com.example.eventplanner.view.fragments.ListFragment
 import com.example.eventplanner.viewModel.parcels.Event
@@ -16,7 +16,7 @@ import com.example.eventplanner.viewModel.parcels.Event
 class GridViewAdapter(var fragment : ListFragment) : RecyclerView.Adapter<GridViewAdapter.ViewHolder>()  {
 
     var dataList = emptyList<Event>()
-    private val imageDB = ImageModal
+    private val imageDB = ImageRepository
 
     internal fun setDataList(dataList : List<Event>){
         this.dataList = dataList

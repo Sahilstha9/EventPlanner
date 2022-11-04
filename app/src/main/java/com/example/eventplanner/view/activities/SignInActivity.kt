@@ -5,8 +5,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.eventplanner.databinding.ActivitySignInBinding
-import com.example.eventplanner.modal.CategoryDatabase
-import com.example.eventplanner.modal.EventDatabase
+import com.example.eventplanner.repository.CategoryRepository
+import com.example.eventplanner.repository.EventRepository
 import com.example.eventplanner.viewModel.SignInViewModel
 
 class SignInActivity : AppCompatActivity() {
@@ -26,8 +26,8 @@ class SignInActivity : AppCompatActivity() {
 
         binding.button.setOnClickListener {
             viewModel.loginUser(binding.emailEt, binding.passET, this)
-            CategoryDatabase.mCategoryList.value = null
-            EventDatabase.mEventList.value = null
+            CategoryRepository.reInitList()
+            EventRepository.reInitList()
         }
 
         viewModel.user.observe(this) {
@@ -43,6 +43,9 @@ class SignInActivity : AppCompatActivity() {
 
     }
 
+    /**
+     * goes to main activity if the user is already logged in
+     */
     override fun onStart() {
         super.onStart()
 

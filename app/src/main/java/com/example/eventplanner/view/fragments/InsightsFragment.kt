@@ -49,6 +49,9 @@ class InsightsFragment : Fragment(R.layout.fragment_scrolling) {
         }
     }
 
+    /**
+     * displays bar graph in the by initialising the value
+     */
     private fun showBarGraph(){
         xValueFormatter.setArray(arrayListOf("completed", "upcoming", "missed"))
 
@@ -62,6 +65,8 @@ class InsightsFragment : Fragment(R.layout.fragment_scrolling) {
         dataSet.colors = arrayListOf(resources.getColor(R.color.done), resources.getColor(R.color.upcoming), resources.getColor(R.color.missed))
         val barData = BarData(dataSet)
         barChart.data = barData
+        barChart.xAxis.setLabelCount(5, true)
+        barChart.xAxis.axisMinimum = 0F
         barChart.invalidate()
 
         initBarchartAxis(barChart.xAxis, xValueFormatter)
@@ -71,6 +76,9 @@ class InsightsFragment : Fragment(R.layout.fragment_scrolling) {
         barChart.xAxis.isEnabled = false
     }
 
+    /**
+     * displays pie chart in the by initialising the value
+     */
     private fun showPieChart(){
         val array = arrayListOf<PieEntry>()
 
@@ -116,7 +124,9 @@ class InsightsFragment : Fragment(R.layout.fragment_scrolling) {
         pieChart.animateX(4000, Easing.EaseInBack)
     }
 
-
+    /**
+     * initialises value for the axis of bar graph
+     */
     private fun initBarchartAxis(v : AxisBase, valueFormatter : ValueFormatter){
         v.valueFormatter = valueFormatter
         v.isGranularityEnabled = true

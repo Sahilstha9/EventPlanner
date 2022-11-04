@@ -47,6 +47,9 @@ class AddCategoryActivity : AppCompatActivity() {
         description.text = category.description
     }
 
+    /**
+     * displays a warning on back pressed before exiting the activity
+     */
     override fun onBackPressed() {
         MaterialAlertDialogBuilder(this)
             .setTitle("Warning")

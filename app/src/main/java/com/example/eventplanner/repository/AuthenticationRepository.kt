@@ -1,20 +1,22 @@
-package com.example.eventplanner.modal
+package com.example.eventplanner.repository
 
-import android.content.BroadcastReceiver
 import android.content.Context
-import android.content.Intent
 import android.util.Log
 import android.widget.Toast
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.userProfileChangeRequest
 
-object AuthenticationModal {
+/**
+ * Repository used for authentication in the application
+ */
+object AuthenticationRepository {
     const val TAG = "AuthenticationModal"
     private var currentUser = MutableLiveData<FirebaseUser>(getDatabaseRef().currentUser)
 
-    fun getUser(): MutableLiveData<FirebaseUser> {
+    fun getUser(): LiveData<FirebaseUser> {
         return currentUser
     }
 
@@ -22,6 +24,9 @@ object AuthenticationModal {
         return FirebaseAuth.getInstance()
     }
 
+    /**
+     * updates profile name for the logged in user
+     */
     fun updateProfile(name : String){
         val user = userProfileChangeRequest {
             displayName = name
@@ -29,6 +34,9 @@ object AuthenticationModal {
         getDatabaseRef().currentUser!!.updateProfile(user)
     }
 
+    /**
+     * registers new user in the database
+     */
     fun registerNewUser(email : String, pass : String, name: String, context: Context){
         getDatabaseRef().createUserWithEmailAndPassword(email, pass).addOnCompleteListener { it ->
             if (it.isSuccessful) {
@@ -49,12 +57,18 @@ object AuthenticationModal {
         }
     }
 
+    /**
+     * logs out current user
+     */
     fun logOutUser(){
         getDatabaseRef().signOut()
         currentUser.value = null
         currentUser.postValue(null)
     }
 
+    /**
+     * logs in user according to the credentials provided
+     */
     fun loginUser(email : String, pass : String, context: Context){
         getDatabaseRef().signInWithEmailAndPassword(email, pass).addOnCompleteListener {
             if (it.isSuccessful) {

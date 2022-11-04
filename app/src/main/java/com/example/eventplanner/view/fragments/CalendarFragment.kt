@@ -1,10 +1,9 @@
 package com.example.eventplanner.view.fragments
 
+import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
@@ -13,10 +12,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.eventplanner.R
-import com.example.eventplanner.modal.AuthenticationModal
 import com.example.eventplanner.view.adapters.CalendarAdapter
+import com.example.eventplanner.view.fragments.bottomSheet.BottomSheetFragment
 import com.example.eventplanner.viewModel.CalendarViewModel
-import com.example.eventplanner.viewModel.ListViewModel
 import com.example.eventplanner.viewModel.classes.CurrentDayDecorator
 import com.example.eventplanner.viewModel.parcels.Event
 import com.prolificinteractive.materialcalendarview.CalendarDay
@@ -51,7 +49,7 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
         })
 
         recyclerView.layoutManager = LinearLayoutManager(context)
-        val adapter = CalendarAdapter(mutableListOf(), requireContext())
+        val adapter = CalendarAdapter(mutableListOf(), this)
         recyclerView.adapter = adapter
 
         recyclerViewValueAdd(CalendarDay.today(), adapter)
@@ -69,6 +67,9 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
         calendarDecorator(viewModel.completedEvents, ContextCompat.getDrawable(requireContext(), R.color.done))
     }
 
+    /**
+     * initialises observer for the event list live data
+     */
     private fun recyclerViewValueAdd(date : CalendarDay, adapter: CalendarAdapter){
         viewModel.eventList.observe(viewLifecycleOwner, Observer {
             val c : MutableList<Event> = mutableListOf()
@@ -85,6 +86,17 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
         })
     }
 
+    /**
+     * displays bottom sheet fragment and also fills the details in it with the values passed
+     */
+    fun showDialog(item: Event){
+        val bottomSheet = BottomSheetFragment(item)
+        bottomSheet.show(childFragmentManager, "Long")
+    }
+
+    /**
+     * colour codes dates in the calendar view according to their status of completion
+     */
     private fun calendarDecorator(list : MutableLiveData<MutableList<Event>>, drawable: Drawable?){
         list.observe(viewLifecycleOwner, Observer {
             for (i in it) {

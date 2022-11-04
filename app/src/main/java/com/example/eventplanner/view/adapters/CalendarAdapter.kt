@@ -10,16 +10,16 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.eventplanner.R
+import com.example.eventplanner.view.fragments.CalendarFragment
 import com.example.eventplanner.view.fragments.ListFragment
 import com.example.eventplanner.viewModel.parcels.Event
 import com.google.android.material.chip.Chip
 import java.util.*
 
 
-class CalendarAdapter(private var data: List<Event>, context: Context) : RecyclerView.Adapter<CalendarAdapter.ViewHolder>()  {
+class CalendarAdapter(private var data: List<Event>, private val context: CalendarFragment) : RecyclerView.Adapter<CalendarAdapter.ViewHolder>()  {
 
     private val TAG: String = "CalendarAdapter"
-    private val context : Context = context
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CalendarAdapter.ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -48,14 +48,14 @@ class CalendarAdapter(private var data: List<Event>, context: Context) : Recycle
             val currentDate = Date()
             currentDate.year = currentDate.year + 1900
             if (item.done) {
-                chip.chipBackgroundColor = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.done))
+                chip.chipBackgroundColor = ColorStateList.valueOf(ContextCompat.getColor(context.requireContext(), R.color.done))
             }
             else{
                 if(item.date > currentDate){
-                    chip.chipBackgroundColor = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.upcoming))
+                    chip.chipBackgroundColor = ColorStateList.valueOf(ContextCompat.getColor(context.requireContext(), R.color.upcoming))
                 }
                 else{
-                    chip.chipBackgroundColor = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.missed))
+                    chip.chipBackgroundColor = ColorStateList.valueOf(ContextCompat.getColor(context.requireContext(), R.color.missed))
                 }
             }
             chip.invalidate()
@@ -63,7 +63,7 @@ class CalendarAdapter(private var data: List<Event>, context: Context) : Recycle
             date.text = item.date.date.toString()
 
             v.setOnClickListener(){
-                ListFragment().showDialog(item)
+                context.showDialog(item)
             }
         }
 

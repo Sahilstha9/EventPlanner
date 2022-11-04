@@ -5,25 +5,28 @@ import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.eventplanner.modal.CategoryDatabase
-import com.example.eventplanner.modal.EventDatabase
-import com.example.eventplanner.viewModel.classes.CategoriesWithEvent
+import com.example.eventplanner.repository.CategoryRepository
+import com.example.eventplanner.repository.EventRepository
+import com.example.eventplanner.viewModel.parcels.CategoriesWithEvent
 import com.example.eventplanner.viewModel.parcels.Category
 import kotlinx.coroutines.launch
 
 class CategoryViewModel : ViewModel(){
 
     private val TAG: String = "CategoryListModal"
-    private var eventDb = EventDatabase
-    var evenList = eventDb.mEventList
-    private var db = CategoryDatabase
-    var cList = db.mCategoryList
+    private var eventDb = EventRepository
+    var evenList = eventDb.getEventList()
+    private var db = CategoryRepository
+    var cList = db.getCategoryList()
     var categoryList : MutableLiveData<MutableList<CategoriesWithEvent>> = MutableLiveData<MutableList<CategoriesWithEvent>>()
 
     init {
         getEvents()
     }
 
+    /**
+     * updates the category list live data
+     */
     fun getEvents(){
         val data = mutableListOf<CategoriesWithEvent>()
         for (i in cList.value ?: mutableListOf()){
@@ -40,13 +43,18 @@ class CategoryViewModel : ViewModel(){
         categoryList.value = data
     }
 
-
+    /**
+     * calls delete category from the database to delete the category passed
+     */
     fun deleteCategory(category: Category, view: View){
         viewModelScope.launch {
             db.deleteCategory(category, view)
         }
     }
 
+    /**
+     * calls updates category from the database to update the category passed
+     */
     fun updateCategory(category: Category, view: View){
         viewModelScope.launch {
             db.updateCategory(category, view)

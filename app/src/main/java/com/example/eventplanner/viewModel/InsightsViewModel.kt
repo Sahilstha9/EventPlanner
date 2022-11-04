@@ -4,24 +4,27 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.eventplanner.modal.CategoryDatabase
-import com.example.eventplanner.modal.EventDatabase
+import com.example.eventplanner.repository.CategoryRepository
+import com.example.eventplanner.repository.EventRepository
 import com.example.eventplanner.viewModel.parcels.Event
 import kotlinx.coroutines.launch
 import java.util.*
 
 class InsightsViewModel : ViewModel() {
     private val TAG = "InsightsViewModel"
-    private val categoryDB = CategoryDatabase
-    private val eventDB = EventDatabase
-    val catList = categoryDB.mCategoryList
-    val eventList = eventDB.mEventList
+    private val categoryDB = CategoryRepository
+    private val eventDB = EventRepository
+    val catList = categoryDB.getCategoryList()
+    val eventList = eventDB.getEventList()
     val eventWithCategoryNameList = mutableListOf<Event>()
     val upcomingCount = MutableLiveData(0)
     val missedCount = MutableLiveData(0)
     val completedCount = MutableLiveData(0)
     var categoryList : MutableList<String> = mutableListOf()
 
+    /**
+     * initialises category list live data
+     */
     fun initCategoryList(){
         categoryList = mutableListOf()
         for (i in catList.value ?: mutableListOf()){
@@ -35,6 +38,9 @@ class InsightsViewModel : ViewModel() {
         }
     }
 
+    /**
+     * updates value in the upcoming, missed, and completed event list in the live data
+     */
     fun initLists(list: List<Event>){
         completedCount.value = 0
         missedCount.value = 0

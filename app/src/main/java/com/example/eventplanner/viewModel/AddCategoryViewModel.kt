@@ -4,12 +4,11 @@ import android.widget.TextView
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.eventplanner.modal.AuthenticationModal
-import com.example.eventplanner.modal.CategoryDatabase
+import com.example.eventplanner.repository.AuthenticationRepository
 import com.example.eventplanner.viewModel.parcels.Category
 
 class AddCategoryViewModel : ViewModel(){
-    private var auth = AuthenticationModal
+    private var auth = AuthenticationRepository
     lateinit var name: String
     lateinit var description: String
     lateinit var id : String
@@ -22,6 +21,9 @@ class AddCategoryViewModel : ViewModel(){
     val category : LiveData<Category>
     get() = _categoryList
 
+    /**
+     * validates the name of the category
+     */
     fun inputValidation(name : TextView): Boolean {
         var isValid = true
         if(name.text.isEmpty()){

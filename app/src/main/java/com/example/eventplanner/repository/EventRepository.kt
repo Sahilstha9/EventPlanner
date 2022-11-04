@@ -1,28 +1,39 @@
-package com.example.eventplanner.modal
+package com.example.eventplanner.repository
 
 import android.net.Uri
 import android.util.Log
 import android.view.View
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.eventplanner.viewModel.parcels.Event
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.database.*
 import java.util.*
 
-object EventDatabase : Observable(){
+/**
+ * repository used for event
+ */
+object EventRepository : Observable(){
     const val TAG = "EventDatabase"
-    private var imageDB = ImageModal
-    private var auth = AuthenticationModal
+    private var imageDB = ImageRepository
+    private var auth = AuthenticationRepository
     var mEventList : MutableLiveData<MutableList<Event>> = MutableLiveData()
+
+    fun getEventList(): LiveData<MutableList<Event>> {
+        return mEventList
+    }
 
     private fun getDatabaseRef() : DatabaseReference {
         return FirebaseDatabase.getInstance().getReference("Events")
     }
 
     init {
-        getEventList()
+        retrieveEventList()
     }
 
+    /**
+     * creates event record in the database
+     */
     fun createEvent(event : Event, view: View, img : Uri?){
         event.id = getDatabaseRef().push().key!!
         event.imageLoc = event.id
@@ -35,7 +46,10 @@ object EventDatabase : Observable(){
         }
     }
 
-    private fun getEventList(){
+    /**
+     * calls data on change to update live data field in real time
+     */
+    private fun retrieveEventList(){
         getDatabaseRef().orderByChild("userId").equalTo(auth.getUser().value?.uid).addValueEventListener(object : ValueEventListener{
             override fun onDataChange(events: DataSnapshot) {
                 val data: MutableList<Event> = mutableListOf()
@@ -56,7 +70,9 @@ object EventDatabase : Observable(){
 
     }
 
-
+    /**
+     * updates event record in the database and displays snack bar once updated
+     */
     fun updateEvent(event : Event, view: View){
         getDatabaseRef().child(event.id).setValue(event).addOnSuccessListener {
             Snackbar.make(view, "Event Record Successfully updated", Snackbar.LENGTH_LONG).show()
@@ -66,6 +82,16 @@ object EventDatabase : Observable(){
         }
     }
 
+    /**
+     * re initialises the live data
+     */
+    fun reInitList(){
+        mEventList.value = null
+    }
+
+    /**
+     * deletes event record from the database and displays snack bar once deleted
+     */
     fun deleteEvent(event : Event, view: View){
         getDatabaseRef().child(event.id).removeValue().addOnSuccessListener {
             Snackbar.make(view, "Event Record Successfully Deleted", Snackbar.LENGTH_LONG).show()

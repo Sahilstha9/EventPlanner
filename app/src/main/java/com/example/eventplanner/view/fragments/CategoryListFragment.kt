@@ -6,8 +6,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.Observer
@@ -15,7 +13,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.eventplanner.R
-import com.example.eventplanner.modal.AuthenticationModal
 import com.example.eventplanner.view.activities.AddCategoryActivity
 import com.example.eventplanner.view.adapters.CategoryListAdapter
 import com.example.eventplanner.view.fragments.bottomSheet.CategoryBottomSheetFragment
@@ -72,6 +69,9 @@ class CategoryListFragment : Fragment(R.layout.fragment_category_list) {
 
     }
 
+    /**
+     * displays bottom sheet fragment and also fills the details in it with the values passed
+     */
     fun showDialog(item : Category) {
         val bottomSheet = CategoryBottomSheetFragment(item)
         bottomSheet.show(childFragmentManager, "Long")
@@ -91,13 +91,18 @@ class CategoryListFragment : Fragment(R.layout.fragment_category_list) {
         }
     }
 
-
+    /**
+     * launches a new activity for result
+     */
     private fun editCategory(category: Category){
         categoryActivityIntent = Intent(context, AddCategoryActivity::class.java)
         categoryActivityIntent!!.putExtra("category", category)
         getCategory.launch(categoryActivityIntent)
     }
 
+    /**
+     * displays a dialog box warning the user and calls delete function if the user is sure to delete it
+     */
     private fun deleteCategory(category: Category){
         MaterialAlertDialogBuilder(requireContext())
             .setTitle("Warning")

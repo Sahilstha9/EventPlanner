@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.eventplanner.R
 import com.example.eventplanner.view.fragments.CategoryListFragment
-import com.example.eventplanner.viewModel.classes.CategoriesWithEvent
+import com.example.eventplanner.viewModel.parcels.CategoriesWithEvent
 import com.example.eventplanner.viewModel.parcels.Category
 import com.example.eventplanner.viewModel.parcels.Event
 
