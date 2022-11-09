@@ -38,7 +38,7 @@ class ListFragment : Fragment(R.layout.fragment_list) {
         val doneFragment = DoneFragment()
 
         viewModel.eventList.observe(viewLifecycleOwner, Observer {
-            viewModel.initLists(it)
+            viewModel.initLists(it ?: mutableListOf())
             viewModel.initCategory()
         })
 

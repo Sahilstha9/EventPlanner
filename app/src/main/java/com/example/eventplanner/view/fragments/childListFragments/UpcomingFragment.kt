@@ -26,7 +26,7 @@ class UpcomingFragment : Fragment(R.layout.fragment_upcoming) {
         recyclerView.layoutManager = LinearLayoutManager(context)
 
         viewModel.eventList.observe(viewLifecycleOwner, Observer {
-            viewModel.initLists(it)
+            viewModel.initLists(it ?: mutableListOf())
             viewModel.initCategory()
         })
 

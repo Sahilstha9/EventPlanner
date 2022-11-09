@@ -45,7 +45,7 @@ class InsightsViewModel : ViewModel() {
         completedCount.value = 0
         missedCount.value = 0
         upcomingCount.value = 0
-        for(i in eventList.value!!){
+        for(i in eventList.value ?: mutableListOf()){
             val event = Event(i.name, i.date, i.category, i.description, i.location, i.done, i.imageLoc, i.id, i.userId)
             eventWithCategoryNameList.add(event)
         }

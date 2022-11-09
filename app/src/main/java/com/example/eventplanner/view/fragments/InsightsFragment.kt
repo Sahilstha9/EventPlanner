@@ -44,7 +44,7 @@ class InsightsFragment : Fragment(R.layout.fragment_scrolling) {
         }
 
         viewModel.eventList.observe(viewLifecycleOwner) {
-            viewModel.initLists(it)
+            viewModel.initLists(it ?: mutableListOf())
             showBarGraph()
         }
     }
