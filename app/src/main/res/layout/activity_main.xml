@@ -1,31 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".View.Activities.MainActivity">
+    android:id="@+id/coordinator"
+    tools:context=".view.activities.MainActivity">
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNavigationView"
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/bottom_nav_menu"/>
+        android:layout_height="match_parent">
 
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragmentHolder"
-        android:name="com.example.eventplanner.View.Fragments.InsightsFragment"
-        android:layout_width="match_parent"
-        android:layout_height="790dp"
-        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout="@layout/fragment_insights" />
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fragmentHolder"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:name="com.example.eventplanner.view.fragments.InsightsFragment"
+            android:layout_width="409dp"
+            android:layout_height="675dp"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout="@layout/fragment_scrolling" />
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:layout_marginTop="20dp"
+            android:id="@+id/bottomNavigationView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:labelVisibilityMode="labeled"
+            app:menu="@menu/bottom_nav_menu" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/addBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="28dp"
+            android:elevation="30dp"
+            android:outlineAmbientShadowColor="@color/black"
+            android:outlineSpotShadowColor="@color/black"
+
+            android:layout_marginBottom="20dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:tint="@color/white"
+            app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@drawable/ic_baseline_add_24" />
+
+        <TextView
+            android:id="@+id/textAddEvent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add_event"
+            android:textColor="@color/purple_700"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toTopOf="@+id/addBtn"
+            app:layout_constraintEnd_toEndOf="@+id/addEvent"
+            app:layout_constraintStart_toStartOf="@+id/addEvent"
+            app:layout_constraintTop_toBottomOf="@+id/addEvent"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/textAddCategory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add_category"
+            android:textColor="@color/purple_700"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toTopOf="@+id/addEvent"
+            app:layout_constraintEnd_toEndOf="@+id/addCategory"
+            app:layout_constraintStart_toStartOf="@+id/addCategory"
+            app:layout_constraintTop_toBottomOf="@+id/addCategory" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/addEvent"
+
+            android:translationZ="90dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="28dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:tint="@color/white"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toTopOf="@+id/addBtn"
+            app:layout_constraintEnd_toEndOf="@+id/addBtn"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/addBtn"
+            app:srcCompat="@drawable/ic_baseline_event_24" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/addCategory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:tint="@color/white"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toTopOf="@+id/addEvent"
+            app:layout_constraintEnd_toEndOf="@+id/addEvent"
+            app:layout_constraintStart_toStartOf="@+id/addEvent"
+            app:srcCompat="@drawable/ic_baseline_category_24" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
